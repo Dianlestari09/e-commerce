@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - EasyAdmin</title>
+  <meta name="description" content="EasyAdmin - Bootstrap Admin Template">
+  <meta name="keywords" content="admin, dashboard, bootstrap">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/phosphor-icons/phosphor-icons.css" rel="stylesheet">
+  <link href="assets/vendor/lucide-icons/lucide.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/choices.js/choices.min.css" rel="stylesheet">
+  <link href="assets/vendor/flatpickr/flatpickr.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+    * Template Name: EasyAdmin - Bootstrap Admin Template
+    * Template URL: https://bootstrapmade.com/easy-admin-bootstrap-admin-html-template/
+    * Updated: Mar 04 2026 with Bootstrap v5.3.8
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <!-- Header Left -->
+    <div class="header-left">
+      <a href="index.html" class="header-logo">
+        <img src="assets/img/logo.webp" alt="EasyAdmin">
+        <span>EasyAdmin</span>
+      </a>
+      <button class="sidebar-toggle" title="Toggle Sidebar">
+        <i class="bi bi-list"></i>
+      </button>
+    </div>
+
+    <!-- Header Search (Desktop) - Expandable -->
+    <div class="header-search">
+      <form class="search-form collapsed" action="search-results.html" method="GET">
+        <button type="button" class="search-toggle-btn"><i class="bi bi-search"></i></button>
+        <input type="search" name="q" placeholder="Search..." autocomplete="off">
+      </form>
+    </div>
+
+    <!-- Header Right -->
+    <div class="header-right">
+      <!-- Desktop Actions (hidden on mobile, shown in mobile menu) -->
+      <div class="header-actions-desktop">
+        <!-- Theme Toggle -->
+        <button class="header-action theme-toggle" title="Toggle Theme">
+          <i class="bi bi-moon icon-dark"></i>
+          <i class="bi bi-sun icon-light"></i>
+        </button>
+
+        <!-- Fullscreen Toggle -->
+        <button class="header-action fullscreen-toggle" onclick="toggleFullscreen()" title="Fullscreen">
+          <i class="bi bi-fullscreen icon-enter"></i>
+          <i class="bi bi-fullscreen-exit icon-exit"></i>
+        </button>
+
+        <!-- Notifications -->
+        <div class="header-action dropdown notification-dropdown">
+          <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell"></i>
+            <span class="badge">3</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end">
+            <div class="notification-header">
+              <h6>Notifications</h6>
+              <a href="#" data-notification-action="mark-all-read">Mark all read</a>
+            </div>
+            <div class="notification-list">
+              <div class="notification-item unread">
+                <div class="notification-icon success">
+                  <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">Order Completed</div>
+                  <div class="notification-text">Your order #12345 has been delivered</div>
+                  <div class="notification-time">5 min ago</div>
+                </div>
+              </div>
+              <div class="notification-item unread">
+                <div class="notification-icon warning">
+                  <i class="bi bi-exclamation-triangle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">Low Storage</div>
+                  <div class="notification-text">Server storage is running low (85% used)</div>
+                  <div class="notification-time">1 hour ago</div>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon info">
+                  <i class="bi bi-info-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">New Feature</div>
+                  <div class="notification-text">Dark mode is now available</div>
+                  <div class="notification-time">2 hours ago</div>
+                </div>
+              </div>
+            </div>
+            <div class="notification-footer">
+              <a href="notifications.html">View all notifications</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Dropdown - shadcn style -->
+        <div class="header-action dropdown user-dropdown">
+          <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="assets/img/profile-img.webp" alt="User" class="avatar">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li class="dropdown-header">
+              <img src="assets/img/profile-img.webp" alt="User" class="user-avatar">
+              <div class="user-info">
+                <h6>John Doe</h6>
+                <span>john@example.com</span>
+              </div>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item" href="profile.html">
+                <i class="bi bi-person"></i> Profile
+                <span class="shortcut">⇧P</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="settings.html">
+                <i class="bi bi-gear"></i> Settings
+                <span class="shortcut">⇧S</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="notifications.html">
+                <i class="bi bi-bell"></i> Notifications
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="activity.html">
+                <i class="bi bi-activity"></i> Activity
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item dropdown-item-danger" href="auth-login.html">
+                <i class="bi bi-box-arrow-right"></i> Sign Out
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Mobile Actions (visible only on mobile) -->
+      <div class="header-actions-mobile">
+        <!-- Search Toggle (Mobile) -->
+        <button class="header-action search-toggle" title="Search">
+          <i class="bi bi-search"></i>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="header-action mobile-menu-toggle" title="More">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Search -->
+  <div class="mobile-search">
+    <form class="search-form" action="search-results.html" method="GET">
+      <input type="search" name="q" placeholder="Search..." autocomplete="off">
+      <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+  </div>
+
+  <!-- Mobile Header Menu -->
+  <div class="mobile-header-menu">
+    <div class="mobile-header-menu-content">
+      <!-- Theme Toggle -->
+      <button class="mobile-menu-item theme-toggle" title="Toggle Theme">
+        <i class="bi bi-moon icon-dark"></i>
+        <i class="bi bi-sun icon-light"></i>
+        <span class="mobile-menu-label">Theme</span>
+      </button>
+
+      <!-- Fullscreen Toggle -->
+      <button class="mobile-menu-item fullscreen-toggle" onclick="toggleFullscreen()" title="Fullscreen">
+        <i class="bi bi-fullscreen icon-enter"></i>
+        <i class="bi bi-fullscreen-exit icon-exit"></i>
+        <span class="mobile-menu-label">Fullscreen</span>
+      </button>
+
+      <!-- Notifications -->
+      <a href="notifications.html" class="mobile-menu-item">
+        <i class="bi bi-bell"></i>
+        <span class="badge">3</span>
+        <span class="mobile-menu-label">Notifications</span>
+      </a>
+
+      <!-- Profile -->
+      <a href="profile.html" class="mobile-menu-item">
+        <i class="bi bi-person"></i>
+        <span class="mobile-menu-label">Profile</span>
+      </a>
+
+      <!-- Settings -->
+      <a href="settings.html" class="mobile-menu-item">
+        <i class="bi bi-gear"></i>
+        <span class="mobile-menu-label">Settings</span>
+      </a>
+
+      <!-- Sign Out -->
+      <a href="auth-login.html" class="mobile-menu-item mobile-menu-item-danger">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="mobile-menu-label">Sign Out</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo">
+        <img src="assets/img/logo.webp" alt="EasyAdmin">
+        <span class="sidebar-logo-text">
+          <span class="sidebar-logo-name">EasyAdmin</span>
+          <span class="sidebar-logo-tagline">Admin Panel</span>
+        </span>
+      </a>
+      <button class="sidebar-close">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav">
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a class="nav-link active" href="index.html" data-tooltip="Dashboard">
+            <i class="ph-duotone ph-squares-four"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Dashboards Submenu -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Dashboards">
+            <i class="ph-duotone ph-speedometer"></i>
+            <span>Dashboards</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="dashboard-sales.html">Sales</a></li>
+            <li><a class="nav-link " href="dashboard-analytics.html">Analytics</a></li>
+            <li><a class="nav-link " href="dashboard-crm.html">CRM</a></li>
+            <li><a class="nav-link " href="dashboard-marketing.html">Marketing</a></li>
+            <li><a class="nav-link " href="dashboard-projects.html">Projects</a></li>
+            <li><a class="nav-link " href="dashboard-finance.html">Finance</a></li>
+          </ul>
+        </li>
+
+        <!-- Users -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Users">
+            <i class="ph-duotone ph-users"></i>
+            <span>Users</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="users.html">Users List</a></li>
+            <li><a class="nav-link " href="users-view.html">User View</a></li>
+            <li><a class="nav-link " href="users-edit.html">User Edit</a></li>
+            <li><a class="nav-link " href="profile.html">Profile</a></li>
+            <!-- 3rd Level - Settings submenu -->
+            <li class="has-submenu ">
+              <a class="nav-link" href="#" aria-expanded="false">
+                Settings
+                <i class="ph-duotone ph-caret-down nav-arrow"></i>
+              </a>
+              <ul class="nav-submenu ">
+                <li><a class="nav-link " href="settings.html">Account</a></li>
+                <li><a class="nav-link " href="notifications.html">Notifications</a></li>
+                <li><a class="nav-link " href="activity.html">Activity</a></li>
+              </ul>
+            </li>
+            <li><a class="nav-link " href="roles.html">Roles & Permissions</a></li>
+          </ul>
+        </li>
+
+        <!-- Authentication -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Authentication">
+            <i class="ph-duotone ph-shield-check"></i>
+            <span>Authentication</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="auth-login.html">Login</a></li>
+            <li><a class="nav-link " href="auth-register.html">Register</a></li>
+            <li><a class="nav-link " href="auth-forgot-password.html">Forgot Password</a></li>
+            <li><a class="nav-link " href="auth-reset-password.html">Reset Password</a></li>
+            <li><a class="nav-link " href="auth-verify-email.html">Email Verification</a></li>
+            <li><a class="nav-link " href="auth-two-factor.html">Two Factor Auth</a></li>
+            <li><a class="nav-link " href="auth-lock-screen.html">Lock Screen</a></li>
+          </ul>
+        </li>
+
+        <!-- Apps Section -->
+        <li class="nav-heading"><span>Apps</span></li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-calendar.html" data-tooltip="Calendar">
+            <i class="ph-duotone ph-calendar"></i>
+            <span>Calendar</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-kanban.html" data-tooltip="Kanban Board">
+            <i class="ph-duotone ph-kanban"></i>
+            <span>Kanban Board</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-chat.html" data-tooltip="Chat">
+            <i class="ph-duotone ph-chats"></i>
+            <span>Chat</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-contacts.html" data-tooltip="Contacts">
+            <i class="ph-duotone ph-address-book"></i>
+            <span>Contacts</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-file-manager.html" data-tooltip="File Manager">
+            <i class="ph-duotone ph-folder-open"></i>
+            <span>File Manager</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-email.html" data-tooltip="Email">
+            <i class="ph-duotone ph-envelope"></i>
+            <span>Email</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-todo.html" data-tooltip="Todo List">
+            <i class="ph-duotone ph-check-square"></i>
+            <span>Todo List</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-support.html" data-tooltip="Support Center">
+            <i class="ph-duotone ph-headset"></i>
+            <span>Support Center</span>
+          </a>
+        </li>
+
+        <!-- UI Elements Section -->
+        <li class="nav-heading"><span>UI Elements</span></li>
+
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Components">
+            <i class="ph-duotone ph-puzzle-piece"></i>
+            <span>Components</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="components-alerts.html">Alerts</a></li>
+            <li><a class="nav-link " href="components-accordion.html">Accordion</a></li>
+            <li><a class="nav-link " href="components-badges.html">Badges</a></li>
+            <li><a class="nav-link " href="components-breadcrumbs.html">Breadcrumbs</a></li>
+            <li><a class="nav-link " href="components-buttons.html">Buttons</a></li>
+            <li><a class="nav-link " href="components-cards.html">Cards</a></li>
+            <li><a class="nav-link " href="components-carousel.html">Carousel</a></li>
+            <li><a class="nav-link " href="components-dropdowns.html">Dropdowns</a></li>
+            <li><a class="nav-link " href="components-list-group.html">List Group</a></li>
+            <li><a class="nav-link " href="components-modal.html">Modal</a></li>
+            <li><a class="nav-link " href="components-nav-tabs.html">Navs & Tabs</a></li>
+            <li><a class="nav-link " href="components-offcanvas.html">Offcanvas</a></li>
+            <li><a class="nav-link " href="components-pagination.html">Pagination</a></li>
+            <li><a class="nav-link " href="components-popovers.html">Popovers</a></li>
+            <li><a class="nav-link " href="components-progress.html">Progress</a></li>
+            <li><a class="nav-link " href="components-spinners.html">Spinners</a></li>
+            <li><a class="nav-link " href="components-toasts.html">Toasts</a></li>
+            <li><a class="nav-link " href="components-tooltips.html">Tooltips</a></li>
+          </ul>
+        </li>
+
+        <!-- Widgets -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Widgets">
+            <i class="ph-duotone ph-layout"></i>
+            <span>Widgets</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="widgets-cards.html">Cards</a></li>
+            <li><a class="nav-link " href="widgets-banners.html">Banners</a></li>
+            <li><a class="nav-link " href="widgets-charts.html">Charts</a></li>
+            <li><a class="nav-link " href="widgets-apps.html">Apps</a></li>
+            <li><a class="nav-link " href="widgets-data.html">Data</a></li>
+          </ul>
+        </li>
+
+        <!-- Forms Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Forms">
+            <i class="ph-duotone ph-textbox"></i>
+            <span>Forms</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="forms-elements.html">Form Elements</a></li>
+            <li><a class="nav-link " href="forms-layouts.html">Form Layouts</a></li>
+            <li><a class="nav-link " href="forms-validation.html">Validation</a></li>
+            <li><a class="nav-link " href="forms-wizard.html">Wizard</a></li>
+            <li><a class="nav-link " href="forms-editors.html">Rich Editors</a></li>
+            <li><a class="nav-link " href="forms-pickers.html">Date/Time Pickers</a></li>
+            <li><a class="nav-link " href="forms-select.html">Advanced Select</a></li>
+            <li><a class="nav-link " href="forms-upload.html">File Upload</a></li>
+          </ul>
+        </li>
+
+        <!-- Tables Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Tables">
+            <i class="ph-duotone ph-table"></i>
+            <span>Tables</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="tables-basic.html">Basic Tables</a></li>
+            <li><a class="nav-link " href="tables-datatables.html">DataTables</a></li>
+            <li><a class="nav-link " href="tables-responsive.html">Responsive Tables</a></li>
+          </ul>
+        </li>
+
+        <!-- Charts Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Charts">
+            <i class="ph-duotone ph-chart-bar"></i>
+            <span>Charts</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="charts-apexcharts.html">ApexCharts</a></li>
+            <li><a class="nav-link " href="charts-chartjs.html">Chart.js</a></li>
+            <li><a class="nav-link " href="charts-echarts.html">ECharts</a></li>
+          </ul>
+        </li>
+
+        <!-- Icons Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Icons">
+            <i class="ph-duotone ph-diamond"></i>
+            <span>Icons</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="icons-bootstrap.html">Bootstrap Icons</a></li>
+            <li><a class="nav-link " href="icons-remixicon.html">Remix Icons</a></li>
+            <li><a class="nav-link " href="icons-fontawesome.html">Font Awesome</a></li>
+            <li><a class="nav-link " href="icons-phosphor.html">Phosphor Icons</a></li>
+            <li><a class="nav-link " href="icons-lucide.html">Lucide Icons</a></li>
+          </ul>
+        </li>
+
+        <!-- Pages Section -->
+        <li class="nav-heading"><span>Pages</span></li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="contact.html" data-tooltip="Contact">
+            <i class="ph-duotone ph-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </li>
+
+        <!-- Invoices -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Invoices">
+            <i class="ph-duotone ph-receipt"></i>
+            <span>Invoices</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="invoice-list.html">Invoice List</a></li>
+            <li><a class="nav-link " href="invoice.html">Invoice View</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="pricing.html" data-tooltip="Pricing">
+            <i class="ph-duotone ph-tag"></i>
+            <span>Pricing</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="faq.html" data-tooltip="FAQ">
+            <i class="ph-duotone ph-question"></i>
+            <span>FAQ</span>
+          </a>
+        </li>
+
+        <!-- Error Pages -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Error Pages">
+            <i class="ph-duotone ph-warning"></i>
+            <span>Error Pages</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="error-404.html">404 Not Found</a></li>
+            <li><a class="nav-link " href="error-403.html">403 Forbidden</a></li>
+            <li><a class="nav-link " href="error-500.html">500 Server Error</a></li>
+            <li><a class="nav-link " href="error-maintenance.html">Maintenance</a></li>
+            <li><a class="nav-link " href="error-coming-soon.html">Coming Soon</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="timeline.html" data-tooltip="Timeline">
+            <i class="ph-duotone ph-clock-counter-clockwise"></i>
+            <span>Timeline</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="search-results.html" data-tooltip="Search Results">
+            <i class="ph-duotone ph-magnifying-glass"></i>
+            <span>Search Results</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="blank.html" data-tooltip="Blank Page">
+            <i class="ph-duotone ph-file"></i>
+            <span>Blank Page</span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+  </aside>
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="main-content">
+      <!-- Page Header with Date Range -->
+      <div class="page-header d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div>
+          <h1 class="page-title">Good morning, Alex</h1>
+          <p class="text-muted mb-0">Here's what's happening with your business today.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-calendar3 me-1"></i> Last 30 Days
+          </button>
+          <button class="btn btn-primary btn-sm">
+            <i class="bi bi-download me-1"></i> Export
+          </button>
+        </div>
+      </div>
+
+      <!-- Bento Grid Layout -->
+      <div class="bento-grid">
+        <!-- Row 1: Revenue (2 cols) + Active Users (1 col) -->
+        <!-- Main Revenue Card - Large -->
+        <div class="card bento-card bento-wide">
+          <div class="card-body">
+            <div class="d-flex align-items-start justify-content-between mb-4">
+              <div>
+                <p class="text-muted mb-1">Total Revenue</p>
+                <h2 class="mb-0 fw-bold">$84,254.32</h2>
+                <div class="d-flex align-items-center gap-2 mt-2">
+                  <span class="badge badge-soft-success">
+                    <i class="bi bi-arrow-up"></i> 23.5%
+                  </span>
+                  <span class="text-muted small">vs last month</span>
+                </div>
+              </div>
+              <div class="bento-icon-lg bg-primary-light">
+                <i class="bi bi-graph-up-arrow text-primary"></i>
+              </div>
+            </div>
+            <div class="chart-container" id="revenueSparkline" style="height: 120px;"></div>
+          </div>
+        </div>
+
+        <!-- Recent Transactions - Tall -->
+        <div class="card bento-card bento-tall">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Recent Transactions</h5>
+            <a href="#" class="small text-primary">View All</a>
+          </div>
+          <div class="card-body p-0">
+            <div class="transaction-list px-3 py-3">
+              <div class="transaction-item">
+                <div class="transaction-icon success">
+                  <i class="bi bi-arrow-down-left"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Payment from John D.</div>
+                  <div class="transaction-meta">Today, 2:30 PM</div>
+                </div>
+                <div class="transaction-amount positive">+$2,450</div>
+              </div>
+              <div class="transaction-item">
+                <div class="transaction-icon danger">
+                  <i class="bi bi-arrow-up-right"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">AWS Services</div>
+                  <div class="transaction-meta">Today, 11:15 AM</div>
+                </div>
+                <div class="transaction-amount negative">-$320</div>
+              </div>
+              <div class="transaction-item">
+                <div class="transaction-icon success">
+                  <i class="bi bi-arrow-down-left"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Premium Upgrade</div>
+                  <div class="transaction-meta">Yesterday</div>
+                </div>
+                <div class="transaction-amount positive">+$890</div>
+              </div>
+              <div class="transaction-item">
+                <div class="transaction-icon success">
+                  <i class="bi bi-arrow-down-left"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Enterprise License</div>
+                  <div class="transaction-meta">Yesterday</div>
+                </div>
+                <div class="transaction-amount positive">+$5,200</div>
+              </div>
+              <div class="transaction-item">
+                <div class="transaction-icon danger">
+                  <i class="bi bi-arrow-up-right"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Refund - Order #4521</div>
+                  <div class="transaction-meta">Jan 18</div>
+                </div>
+                <div class="transaction-amount negative">-$199</div>
+              </div>
+              <div class="transaction-item">
+                <div class="transaction-icon success">
+                  <i class="bi bi-arrow-down-left"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Subscription - Pro Plan</div>
+                  <div class="transaction-meta">Jan 17</div>
+                </div>
+                <div class="transaction-amount positive">+$1,200</div>
+              </div>
+              <div class="transaction-item">
+                <div class="transaction-icon danger">
+                  <i class="bi bi-arrow-up-right"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Google Cloud Platform</div>
+                  <div class="transaction-meta">Jan 16</div>
+                </div>
+                <div class="transaction-amount negative">-$540</div>
+              </div>
+              <div class="transaction-item">
+                <div class="transaction-icon success">
+                  <i class="bi bi-arrow-down-left"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Consulting Fee</div>
+                  <div class="transaction-meta">Jan 15</div>
+                </div>
+                <div class="transaction-amount positive">+$3,800</div>
+              </div>
+              <div class="transaction-item">
+                <div class="transaction-icon success">
+                  <i class="bi bi-arrow-down-left"></i>
+                </div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Workshop Registration</div>
+                  <div class="transaction-meta">Jan 14</div>
+                </div>
+                <div class="transaction-amount positive">+$750</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Stats cards (2 cols) next to transactions -->
+        <!-- Active Users Card -->
+        <div class="card bento-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="bento-icon bg-success-light">
+                <i class="bi bi-people text-success"></i>
+              </div>
+              <span class="badge badge-soft-success">
+                <i class="bi bi-arrow-up"></i> 12%
+              </span>
+            </div>
+            <h3 class="mb-1 fw-bold">2,847</h3>
+            <p class="text-muted mb-0 small">Active Users</p>
+            <div class="mini-chart mt-3" id="usersSparkline"></div>
+          </div>
+        </div>
+
+        <!-- Orders Card -->
+        <div class="card bento-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="bento-icon bg-info-light">
+                <i class="bi bi-bag-check text-info"></i>
+              </div>
+              <span class="badge badge-soft-success">
+                <i class="bi bi-arrow-up"></i> 8%
+              </span>
+            </div>
+            <h3 class="mb-1 fw-bold">1,429</h3>
+            <p class="text-muted mb-0 small">Total Orders</p>
+            <div class="mini-chart mt-3" id="ordersSparkline"></div>
+          </div>
+        </div>
+
+        <!-- Row 3: Sales Chart (2 cols) + Traffic (1 col) -->
+        <!-- Sales by Category -->
+        <div class="card bento-card bento-wide">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Sales by Category</h5>
+            <div class="card-actions">
+              <button class="btn-icon" data-bs-toggle="dropdown">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">View Details</a></li>
+                <li><a class="dropdown-item" href="#">Export Data</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" id="categoryChart" style="height: 200px;"></div>
+          </div>
+        </div>
+
+        <!-- Traffic Sources -->
+        <div class="card bento-card">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Traffic Sources</h5>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" id="trafficDonut" style="height: 180px;"></div>
+          </div>
+        </div>
+
+        <!-- Row 4: Full width products table -->
+        <!-- Top Products -->
+        <div class="card bento-card bento-full">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Top Products</h5>
+            <a href="#" class="small text-primary">See All</a>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Sales</th>
+                    <th>Revenue</th>
+                    <th>Trend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="product-thumb bg-primary-light">
+                          <i class="bi bi-box text-primary"></i>
+                        </div>
+                        <span class="fw-medium">Pro Subscription</span>
+                      </div>
+                    </td>
+                    <td>1,234</td>
+                    <td class="fw-semibold">$42,890</td>
+                    <td><span class="text-success"><i class="bi bi-arrow-up"></i> 12%</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="product-thumb bg-success-light">
+                          <i class="bi bi-lightning text-success"></i>
+                        </div>
+                        <span class="fw-medium">Enterprise Plan</span>
+                      </div>
+                    </td>
+                    <td>856</td>
+                    <td class="fw-semibold">$38,450</td>
+                    <td><span class="text-success"><i class="bi bi-arrow-up"></i> 8%</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="product-thumb bg-warning-light">
+                          <i class="bi bi-star text-warning"></i>
+                        </div>
+                        <span class="fw-medium">Basic License</span>
+                      </div>
+                    </td>
+                    <td>2,145</td>
+                    <td class="fw-semibold">$21,450</td>
+                    <td><span class="text-danger"><i class="bi bi-arrow-down"></i> 3%</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 5: 3 smaller cards -->
+        <!-- Team Activity -->
+        <div class="card bento-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h6 class="card-title mb-0">Team Activity</h6>
+              <span class="badge badge-soft-success"><i class="bi bi-circle-fill me-1" style="font-size: 6px;"></i>3 online</span>
+            </div>
+            <div class="team-activity mb-3">
+              <div class="team-member">
+                <img src="assets/img/avatars/avatar-1.webp" alt="" class="team-avatar">
+                <div class="team-status online"></div>
+              </div>
+              <div class="team-member">
+                <img src="assets/img/avatars/avatar-2.webp" alt="" class="team-avatar">
+                <div class="team-status online"></div>
+              </div>
+              <div class="team-member">
+                <img src="assets/img/avatars/avatar-3.webp" alt="" class="team-avatar">
+                <div class="team-status away"></div>
+              </div>
+              <div class="team-member">
+                <img src="assets/img/avatars/avatar-4.webp" alt="" class="team-avatar">
+                <div class="team-status offline"></div>
+              </div>
+              <div class="team-more">+5</div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-soft-primary flex-fill">
+                <i class="bi bi-chat-dots me-1"></i>Chat
+              </button>
+              <button class="btn btn-sm btn-soft-secondary flex-fill">
+                <i class="bi bi-camera-video me-1"></i>Call
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Goals Progress -->
+        <div class="card bento-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h6 class="card-title mb-0">Monthly Goals</h6>
+              <span class="text-muted small">Jan 2026</span>
+            </div>
+            <div class="goal-widget">
+              <div class="goal-chart-wrapper" id="goalProgress"></div>
+              <div class="goal-stats">
+                <div class="goal-stat-item">
+                  <span class="goal-stat-dot bg-primary"></span>
+                  <div class="goal-stat-info">
+                    <span class="goal-stat-label">Revenue</span>
+                    <span class="goal-stat-value">$78K<span class="text-muted">/$100K</span></span>
+                  </div>
+                </div>
+                <div class="goal-stat-item">
+                  <span class="goal-stat-dot bg-success"></span>
+                  <div class="goal-stat-info">
+                    <span class="goal-stat-label">Users</span>
+                    <span class="goal-stat-value">2.8K<span class="text-muted">/3K</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Tasks Card -->
+        <div class="card bento-card">
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h6 class="card-title mb-0">Pending Tasks</h6>
+              <span class="text-muted small">Today</span>
+            </div>
+            <div class="task-summary flex-grow-1 d-flex flex-column justify-content-between">
+              <div class="task-count">
+                <span class="task-number">18</span>
+                <span class="task-label">tasks remaining</span>
+              </div>
+              <div class="task-breakdown">
+                <div class="task-type urgent">
+                  <i class="bi bi-exclamation-circle"></i>
+                  <span class="task-type-count">5</span>
+                  <span class="task-type-label">Urgent</span>
+                </div>
+                <div class="task-type medium">
+                  <i class="bi bi-dash-circle"></i>
+                  <span class="task-type-count">8</span>
+                  <span class="task-type-label">Medium</span>
+                </div>
+                <div class="task-type low">
+                  <i class="bi bi-circle"></i>
+                  <span class="task-type-count">5</span>
+                  <span class="task-type-label">Low</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Bar -->
+      <div class="quick-actions-bar mt-4">
+        <button class="quick-action-btn">
+          <i class="bi bi-plus-lg"></i>
+          <span>New Order</span>
+        </button>
+        <button class="quick-action-btn">
+          <i class="bi bi-person-plus"></i>
+          <span>Add Customer</span>
+        </button>
+        <button class="quick-action-btn">
+          <i class="bi bi-file-earmark-text"></i>
+          <span>Create Invoice</span>
+        </button>
+        <button class="quick-action-btn">
+          <i class="bi bi-bar-chart"></i>
+          <span>View Reports</span>
+        </button>
+        <button class="quick-action-btn">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer-copyright">
+          &copy; 2026 <a href="#">EasyAdmin</a>. All Rights Reserved.
+        </div>
+        <div class="footer-credits">
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Back to Top -->
+  <a href="#" class="back-to-top">
+    <i class="bi bi-arrow-up"></i>
+  </a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/choices.js/choices.min.js"></script>
+  <script src="assets/vendor/flatpickr/flatpickr.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS Files -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- App Sidebar Toggle (for app pages with sidebars) -->
+  <script src="assets/js/apps-sidebar-toggle.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+      const successColor = getComputedStyle(document.documentElement).getPropertyValue('--success-color').trim();
+      const warningColor = getComputedStyle(document.documentElement).getPropertyValue('--warning-color').trim();
+      const infoColor = getComputedStyle(document.documentElement).getPropertyValue('--info-color').trim();
+      const dangerColor = getComputedStyle(document.documentElement).getPropertyValue('--danger-color').trim();
+      const borderColor = getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim();
+      const mutedColor = getComputedStyle(document.documentElement).getPropertyValue('--muted-color').trim();
+      // Chart accent color - bluish color for better dark mode visibility
+      const chartBlue = '#3b82f6';
+      // Revenue Sparkline
+      const revenueSparkline = new ApexCharts(document.querySelector('#revenueSparkline'), {
+        series: [{
+          name: 'Revenue',
+          data: [31, 40, 28, 51, 42, 109, 100, 120, 80, 95, 110, 140]
+        }],
+        chart: {
+          type: 'area',
+          height: 120,
+          sparkline: {
+            enabled: true
+          },
+          toolbar: {
+            show: false
+          }
+        },
+        colors: [chartBlue],
+        stroke: {
+          curve: 'smooth',
+          width: 2
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.4,
+            opacityTo: 0.1,
+            stops: [0, 90, 100]
+          }
+        },
+        tooltip: {
+          fixed: {
+            enabled: false
+          },
+          y: {
+            formatter: function(val) {
+              return '$' + val + 'K';
+            }
+          }
+        }
+      });
+      revenueSparkline.render();
+      // Users Mini Sparkline
+      const usersSparkline = new ApexCharts(document.querySelector('#usersSparkline'), {
+        series: [{
+          data: [25, 66, 41, 89, 63, 25, 44, 75, 36, 62]
+        }],
+        chart: {
+          type: 'line',
+          height: 40,
+          sparkline: {
+            enabled: true
+          }
+        },
+        colors: [successColor],
+        stroke: {
+          curve: 'smooth',
+          width: 2
+        },
+        tooltip: {
+          enabled: false
+        }
+      });
+      usersSparkline.render();
+      // Orders Mini Sparkline
+      const ordersSparkline = new ApexCharts(document.querySelector('#ordersSparkline'), {
+        series: [{
+          data: [12, 14, 18, 47, 42, 15, 35, 45, 58, 42]
+        }],
+        chart: {
+          type: 'line',
+          height: 40,
+          sparkline: {
+            enabled: true
+          }
+        },
+        colors: [infoColor],
+        stroke: {
+          curve: 'smooth',
+          width: 2
+        },
+        tooltip: {
+          enabled: false
+        }
+      });
+      ordersSparkline.render();
+      // Sales by Category Chart
+      const categoryChart = new ApexCharts(document.querySelector('#categoryChart'), {
+        series: [{
+          name: 'Sales',
+          data: [44, 55, 41, 67, 22, 43]
+        }],
+        chart: {
+          type: 'bar',
+          height: 200,
+          toolbar: {
+            show: false
+          }
+        },
+        colors: [chartBlue],
+        plotOptions: {
+          bar: {
+            borderRadius: 6,
+            horizontal: true,
+            distributed: false,
+            barHeight: '60%'
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        xaxis: {
+          categories: ['Electronics', 'Clothing', 'Software', 'Services', 'Hardware', 'Accessories'],
+          labels: {
+            style: {
+              colors: mutedColor,
+              fontSize: '12px'
+            }
+          }
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: mutedColor,
+              fontSize: '12px'
+            }
+          }
+        },
+        grid: {
+          borderColor: borderColor,
+          strokeDashArray: 4
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return '$' + val + 'K';
+            }
+          }
+        }
+      });
+      categoryChart.render();
+      // Traffic Donut Chart
+      const trafficDonut = new ApexCharts(document.querySelector('#trafficDonut'), {
+        series: [44, 25, 18, 13],
+        chart: {
+          type: 'donut',
+          height: 180
+        },
+        colors: [accentColor, successColor, warningColor, infoColor],
+        labels: ['Direct', 'Organic', 'Referral', 'Social'],
+        legend: {
+          position: 'bottom',
+          fontSize: '12px',
+          markers: {
+            width: 8,
+            height: 8,
+            radius: 4
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              size: '70%',
+              labels: {
+                show: true,
+                total: {
+                  show: true,
+                  label: 'Total',
+                  formatter: function() {
+                    return '24.5K';
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
+      trafficDonut.render();
+      // Goal Progress Circle
+      const goalProgress = new ApexCharts(document.querySelector('#goalProgress'), {
+        series: [78],
+        chart: {
+          type: 'radialBar',
+          height: 100,
+          sparkline: {
+            enabled: true
+          }
+        },
+        colors: [accentColor],
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: '55%'
+            },
+            track: {
+              background: borderColor,
+              strokeWidth: '100%'
+            },
+            dataLabels: {
+              show: true,
+              name: {
+                show: false
+              },
+              value: {
+                show: true,
+                fontSize: '18px',
+                fontWeight: 700,
+                color: undefined,
+                offsetY: 6
+              }
+            }
+          }
+        }
+      });
+      goalProgress.render();
+      // Theme change handler
+      document.addEventListener('themeChanged', function() {
+        const newBorderColor = getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim();
+        const newMutedColor = getComputedStyle(document.documentElement).getPropertyValue('--muted-color').trim();
+        categoryChart.updateOptions({
+          grid: {
+            borderColor: newBorderColor
+          },
+          xaxis: {
+            labels: {
+              style: {
+                colors: newMutedColor
+              }
+            }
+          },
+          yaxis: {
+            labels: {
+              style: {
+                colors: newMutedColor
+              }
+            }
+          }
+        });
+        goalProgress.updateOptions({
+          plotOptions: {
+            radialBar: {
+              track: {
+                background: newBorderColor
+              }
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

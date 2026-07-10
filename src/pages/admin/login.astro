@@ -1,0 +1,253 @@
+---
+// Admin Login Page - Standalone page without AdminLayout sidebar
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - EasyAdmin</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap & Icons -->
+  <link href="/admin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/admin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg-gradient-start: #0f172a;
+      --bg-gradient-end: #1e1b4b;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f1f5f9;
+      margin: 0;
+    }
+
+    .login-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-container img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo-container span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .form-control {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f1f5f9;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: rgba(15, 23, 42, 0.8);
+      border-color: #6366f1;
+      color: #f1f5f9;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn-login {
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      padding: 0.75rem;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .input-group-text {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      border-radius: 10px 0 0 10px;
+    }
+
+    .form-control {
+      border-radius: 0 10px 10px 0;
+    }
+
+    .alert {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <div class="text-center mb-4">
+      <div class="logo-container">
+        <img src="/admin/assets/img/logo.webp" alt="EasyAdmin Logo">
+        <span>EasyAdmin</span>
+      </div>
+      <h4 class="fw-bold mb-1">Administration Panel</h4>
+      <p class="text-muted small">Sign in with your admin or reseller credentials</p>
+    </div>
+
+    <div id="alert-container"></div>
+
+    <form id="admin-login-form">
+      <div class="mb-3">
+        <label for="email" class="form-label small fw-semibold text-muted">EMAIL ADDRESS</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control" id="email" required placeholder="admin@example.com">
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label small fw-semibold text-muted">PASSWORD</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock"></i></span>
+          <input type="password" class="form-control" id="password" required placeholder="••••••••">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-login w-100 d-flex align-items-center justify-content-center gap-2" id="submit-btn">
+        <span id="btn-text">Log In</span>
+        <span id="btn-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+      </button>
+    </form>
+  </div>
+
+  <script>
+    import { supabase } from '../../lib/supabase';
+
+    const loginForm = document.getElementById('admin-login-form') as HTMLFormElement;
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+    const btnText = document.getElementById('btn-text');
+    const btnSpinner = document.getElementById('btn-spinner');
+    const alertContainer = document.getElementById('alert-container');
+
+    function showAlert(message: string) {
+      if (alertContainer) {
+        alertContainer.innerHTML = `
+          <div class="alert alert-dismissible fade show border-0" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            ${message}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `;
+      }
+    }
+
+    loginForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (submitBtn) submitBtn.disabled = true;
+      btnText?.classList.add('d-none');
+      btnSpinner?.classList.remove('d-none');
+      if (alertContainer) alertContainer.innerHTML = '';
+
+      const email = (document.getElementById('email') as HTMLInputElement).value.trim();
+      const password = (document.getElementById('password') as HTMLInputElement).value;
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) {
+          showAlert(error.message);
+          if (submitBtn) submitBtn.disabled = false;
+          btnText?.classList.remove('d-none');
+          btnSpinner?.classList.add('d-none');
+          return;
+        }
+
+        const user = data.user;
+        if (!user) {
+          showAlert("Authentication failed.");
+          return;
+        }
+
+        // Fetch role from profiles table
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+
+        const role = profile?.role;
+
+        if (profileError || (role !== 'admin' && role !== 'super_admin')) {
+          showAlert("Access Denied: Only administrators or resellers can log in here.");
+          // Sign out immediately to clean session
+          await supabase.auth.signOut();
+          
+          if (submitBtn) submitBtn.disabled = false;
+          btnText?.classList.remove('d-none');
+          btnSpinner?.classList.add('d-none');
+          return;
+        }
+
+        // Redirect to admin panel
+        window.location.href = '/admin';
+      } catch (err: any) {
+        console.error(err);
+        showAlert("An unexpected error occurred.");
+        if (submitBtn) submitBtn.disabled = false;
+        btnText?.classList.remove('d-none');
+        btnSpinner?.classList.add('d-none');
+      }
+    });
+  </script>
+
+  <!-- Bootstrap Bundle JS -->
+  <script is:inline src="/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

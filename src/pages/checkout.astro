@@ -1,0 +1,516 @@
+---
+import ShopLayout from '../layouts/ShopLayout.astro';
+---
+<ShopLayout title="Checkout - ShopWise">
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Checkout</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li class="current">Checkout</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Checkout Section -->
+    <section id="checkout" class="checkout section">
+      <div class="container py-5">
+        <div id="checkout-container" class="row g-4">
+          <!-- Form Section - Left -->
+          <div class="col-lg-7">
+            <div class="checkout-card border rounded p-4 bg-light shadow-sm">
+              <form id="checkout-form">
+                <!-- Contact Information -->
+                <div class="form-section mb-4">
+                  <h4 class="fw-bold mb-3"><i class="bi bi-person me-2"></i>Contact Information</h4>
+                  <div class="row g-3">
+                    <div class="col-sm-6">
+                      <label for="c-fname" class="form-label">First Name</label>
+                      <input type="text" id="c-fname" class="form-control" placeholder="Jane" required>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="c-lname" class="form-label">Last Name</label>
+                      <input type="text" id="c-lname" class="form-control" placeholder="Doe" required>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="c-phone" class="form-label">Phone Number</label>
+                      <input type="tel" id="c-phone" class="form-control" placeholder="+62 812-3456-7890" required>
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Shipping Address -->
+                <div class="form-section mb-4">
+                  <h4 class="fw-bold mb-3"><i class="bi bi-geo-alt me-2"></i>Shipping Address</h4>
+                  
+                  <!-- Saved Address Selector (hidden by default) -->
+                  <div class="mb-3 d-none" id="saved-addresses-block">
+                    <label for="c-saved-address" class="form-label fw-bold text-primary">Use Saved Address</label>
+                    <select id="c-saved-address" class="form-select border-primary">
+                      <option value="">-- Choose saved address or fill manually --</option>
+                    </select>
+                    <div class="text-muted small mt-1">Or manage your address book in <a href="/addresses" target="_blank" class="text-decoration-underline">My Addresses</a>.</div>
+                  </div>
+
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <label for="c-street" class="form-label">Street Address</label>
+                      <input type="text" id="c-street" class="form-control" placeholder="e.g. Jl. Raya Darmo No. 12" required>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="c-province" class="form-label">Province *</label>
+                      <select id="c-province" class="form-select" required>
+                        <option value="">-- Select Province --</option>
+                        <!-- Loaded dynamically via JS -->
+                      </select>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="c-city" class="form-label">City *</label>
+                      <input type="text" id="c-city" class="form-control" placeholder="e.g. Surabaya" required>
+                    </div>
+                    <div class="col-sm-12">
+                      <label for="c-zip" class="form-label">ZIP Code</label>
+                      <input type="text" id="c-zip" class="form-control" placeholder="e.g. 60111">
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Payment Method -->
+                <div class="form-section mb-4">
+                  <h4 class="fw-bold mb-3"><i class="bi bi-credit-card me-2"></i>Payment Method</h4>
+                  <div class="d-flex flex-column gap-2">
+                    <div class="form-check p-3 border rounded">
+                      <input class="form-check-input ms-0 me-2" type="radio" name="payment-method" id="pm-cod" value="cod" checked>
+                      <label class="form-check-label fw-semibold" for="pm-cod">
+                        Cash on Delivery (COD)
+                      </label>
+                      <div class="text-muted small mt-1">Pay with cash upon delivery.</div>
+                    </div>
+                    <div class="form-check p-3 border rounded">
+                      <input class="form-check-input ms-0 me-2" type="radio" name="payment-method" id="pm-transfer" value="bank_transfer">
+                      <label class="form-check-label fw-semibold" for="pm-transfer">
+                        Bank Transfer
+                      </label>
+                      <div class="text-muted small mt-1">Transfer directly to our corporate bank account.</div>
+                    </div>
+                  </div>
+
+                  <!-- Upload Proof Block (visible when Bank Transfer is selected) -->
+                  <div class="mt-3 d-none card bg-light border p-3" id="payment-proof-block">
+                    <label for="c-payment-proof" class="form-label fw-bold text-primary mb-1">
+                      <i class="bi bi-cloud-upload me-1"></i>Upload Bukti Transfer (Gambar/Screenshot) *
+                    </label>
+                    <input type="file" id="c-payment-proof" class="form-control" accept="image/*">
+                    <div class="text-secondary small mt-2" style="font-size: 0.78rem; line-height: 1.4;">
+                      Silakan transfer pembayaran Anda ke rekening BCA berikut:<br>
+                      <strong>No Rekening: 1234-567-890</strong><br>
+                      <strong>Atas Nama: PT ShopWise Indonesia</strong><br>
+                      Lalu unggah screenshot bukti transfer di atas sebelum memproses pesanan.
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="alert alert-danger d-none" id="error-alert"></div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 fw-bold shadow-sm" id="submit-order-btn">
+                  <i class="bi bi-lock-fill me-2"></i>Place Order
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Order Summary - Right -->
+          <div class="col-lg-5">
+            <div class="order-summary-card border rounded p-4 bg-light shadow-sm">
+              <div class="summary-header mb-4 border-bottom pb-2">
+                <h4 class="fw-bold">Order Summary</h4>
+                <span class="text-muted" id="summary-items-count">0 items</span>
+              </div>
+
+              <!-- List of items -->
+              <div class="summary-products mb-4" id="summary-products-container">
+                <!-- Loaded via JS -->
+              </div>
+
+              <div class="border-top pt-3">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Subtotal</span>
+                  <span class="fw-semibold" id="summary-subtotal">$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Shipping</span>
+                  <span class="fw-semibold text-secondary" id="summary-shipping-fee">Select Province</span>
+                </div>
+                <div class="border-top my-3"></div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="fw-bold" style="font-size: 1.2rem;">Total</span>
+                  <span class="fw-bold text-primary" style="font-size: 1.4rem;" id="summary-total">$0.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Empty Cart State -->
+        <div id="empty-checkout-state" class="text-center py-5 d-none">
+          <i class="bi bi-cart text-muted" style="font-size: 4rem;"></i>
+          <h2 class="mt-3">Your cart is empty</h2>
+          <p class="text-muted">Please add products to your cart before checking out.</p>
+          <a href="/category" class="btn btn-primary mt-2">Go Shopping</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    let provinceRates = {};
+    let subtotalAmount = 0;
+
+    async function loadCheckoutPage() {
+      // Wait for window.supabase to be available (set by ShopLayout module script)
+      let globalSupabase = window['supabase'];
+      if (!globalSupabase) {
+        // Retry up to 20 times (2 seconds total) waiting for the module script to load
+        for (let i = 0; i < 20; i++) {
+          await new Promise(r => setTimeout(r, 100));
+          globalSupabase = window['supabase'];
+          if (globalSupabase) break;
+        }
+      }
+
+      // Force user login before checkout
+      let currentSession = null;
+      if (globalSupabase) {
+        try {
+          const { data: { session } } = await globalSupabase.auth.getSession();
+          if (!session || !session.user) {
+            window.location.href = '/login?redirect=/checkout';
+            return;
+          }
+          currentSession = session;
+        } catch (e) {
+          console.error('Auth check failed:', e);
+        }
+      } else {
+        // Supabase client never loaded - redirect to login as fallback
+        window.location.href = '/login?redirect=/checkout';
+        return;
+      }
+
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const formContainer = document.getElementById('checkout-container');
+      const emptyState = document.getElementById('empty-checkout-state');
+
+      if (cart.length === 0) {
+        formContainer.classList.add('d-none');
+        emptyState.classList.remove('d-none');
+        return;
+      }
+
+      // Load products summary with variants (color and size)
+      const productsContainer = document.getElementById('summary-products-container');
+      productsContainer.innerHTML = cart.map(item => `
+        <div class="d-flex align-items-center justify-content-between border-bottom py-2">
+          <div class="d-flex align-items-center gap-3">
+            <div style="width: 50px; height: 50px; position: relative;">
+              <img src="${item.image || '/shop/assets/img/product/product-default.webp'}" alt="${item.name}" class="img-fluid rounded border w-100 h-100 object-fit-cover">
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary" style="font-size: 0.75rem;">
+                ${item.quantity}
+               </span>
+            </div>
+            <div>
+              <h6 class="mb-0 fw-bold" style="font-size: 0.9rem;">${item.name}</h6>
+              ${(item.color || item.size) ? `
+                <span class="text-muted small d-block" style="font-size: 0.72rem;">
+                  ${[item.color, item.size].filter(Boolean).join(' / ')}
+                </span>
+              ` : ''}
+            </div>
+          </div>
+          <span class="fw-semibold text-primary" style="font-size: 0.95rem;">$${(item.price * item.quantity).toFixed(2)}</span>
+        </div>
+      `).join('');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      subtotalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+      document.getElementById('summary-items-count').textContent = `${totalItems} item${totalItems !== 1 ? 's' : ''}`;
+      document.getElementById('summary-subtotal').textContent = `$${subtotalAmount.toFixed(2)}`;
+      
+      // Load shipping rates dynamically
+      const provinceSelect = document.getElementById('c-province');
+      try {
+        const res = await fetch('/api/shipping-rates');
+        const result = await res.json();
+        if (res.ok && result.success) {
+          result.data.forEach(r => {
+            provinceRates[r.province] = Number(r.rate);
+            const opt = document.createElement('option');
+            opt.value = r.province;
+            opt.textContent = `${r.province} (+$${Number(r.rate).toFixed(2)})`;
+            provinceSelect.appendChild(opt);
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load shipping rates:", err);
+      }
+
+      // Handle province change to update shipping rate in summary
+      provinceSelect.addEventListener('change', () => {
+        const selectedProvince = provinceSelect.value;
+        const rate = provinceRates[selectedProvince] || 0;
+        const total = subtotalAmount + rate;
+
+        const shippingSpan = document.getElementById('summary-shipping-fee');
+        if (selectedProvince) {
+          shippingSpan.textContent = `$${rate.toFixed(2)}`;
+          shippingSpan.className = "fw-bold text-dark";
+        } else {
+          shippingSpan.textContent = "Select Province";
+          shippingSpan.className = "fw-semibold text-secondary";
+        }
+
+        document.getElementById('summary-total').textContent = `$${total.toFixed(2)}`;
+        
+        const submitBtn = document.getElementById('submit-order-btn');
+        if (submitBtn) {
+          submitBtn.innerHTML = `<i class="bi bi-lock-fill me-2"></i>Place Order — $${total.toFixed(2)}`;
+        }
+      });
+
+      // --- CUSTOMER SAVED ADDRESSES BOOK INTEGRATION ---
+      let savedAddresses = [];
+      const savedAddressesBlock = document.getElementById('saved-addresses-block');
+      const savedAddressesSelect = document.getElementById('c-saved-address');
+
+      if (currentSession) {
+        try {
+          const res = await fetch('/api/customer/addresses', {
+            headers: {
+              'Authorization': `Bearer ${currentSession.access_token}`
+            }
+          });
+          const result = await res.json();
+          if (res.ok && result.success && result.data && result.data.length > 0) {
+            savedAddresses = result.data;
+            savedAddressesBlock.classList.remove('d-none');
+            
+            savedAddresses.forEach(addr => {
+              const opt = document.createElement('option');
+              opt.value = addr.id;
+              opt.textContent = `${addr.label} - ${addr.recipient_name} (${addr.city}, ${addr.province})`;
+              if (addr.is_default) {
+                opt.selected = true;
+              }
+              savedAddressesSelect.appendChild(opt);
+            });
+
+            // If there's a default, auto-fill it
+            const defaultAddr = savedAddresses.find(a => a.is_default);
+            if (defaultAddr) {
+              fillAddressFields(defaultAddr);
+            }
+          }
+        } catch (err) {
+          console.error("Failed to load saved addresses:", err);
+        }
+      }
+
+      savedAddressesSelect.addEventListener('change', () => {
+        const selectedId = savedAddressesSelect.value;
+        if (selectedId) {
+          const addr = savedAddresses.find(a => a.id === selectedId);
+          if (addr) {
+            fillAddressFields(addr);
+          }
+        } else {
+          // Reset fields
+          document.getElementById('c-fname').value = '';
+          document.getElementById('c-lname').value = '';
+          document.getElementById('c-phone').value = '';
+          document.getElementById('c-street').value = '';
+          document.getElementById('c-province').value = '';
+          document.getElementById('c-city').value = '';
+          document.getElementById('c-zip').value = '';
+          document.getElementById('c-province').dispatchEvent(new Event('change'));
+        }
+      });
+
+      function fillAddressFields(addr) {
+        const nameParts = addr.recipient_name.trim().split(/\s+/);
+        const fname = nameParts[0] || '';
+        const lname = nameParts.slice(1).join(' ') || '';
+
+        document.getElementById('c-fname').value = fname;
+        document.getElementById('c-lname').value = lname;
+        document.getElementById('c-phone').value = addr.phone;
+        document.getElementById('c-street').value = addr.street;
+        document.getElementById('c-province').value = addr.province;
+        document.getElementById('c-city').value = addr.city;
+        document.getElementById('c-zip').value = addr.zip || '';
+
+        // Trigger change event to calculate shipping rates
+        document.getElementById('c-province').dispatchEvent(new Event('change'));
+      }
+
+      // Handle payment method switch (show/hide payment proof input)
+      const pmCod = document.getElementById('pm-cod');
+      const pmTransfer = document.getElementById('pm-transfer');
+      const proofBlock = document.getElementById('payment-proof-block');
+      const proofInput = document.getElementById('c-payment-proof');
+
+      function toggleProofVisibility() {
+        if (pmTransfer && pmTransfer.checked) {
+          proofBlock.classList.remove('d-none');
+          proofInput.setAttribute('required', 'true');
+        } else {
+          proofBlock.classList.add('d-none');
+          proofInput.removeAttribute('required');
+        }
+      }
+
+      if (pmCod) pmCod.addEventListener('change', toggleProofVisibility);
+      if (pmTransfer) pmTransfer.addEventListener('change', toggleProofVisibility);
+
+      // Trigger visibility initial state
+      toggleProofVisibility();
+
+      // Initial Total layout trigger: this fixes the timing race condition
+      document.getElementById('c-province').dispatchEvent(new Event('change'));
+    }
+
+    // Handle form submit
+    const form = document.getElementById('checkout-form');
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submit-order-btn');
+        const errorAlert = document.getElementById('error-alert');
+        errorAlert.classList.add('d-none');
+        
+        submitBtn.disabled = true;
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const firstName = document.getElementById('c-fname').value;
+        const lastName = document.getElementById('c-lname').value;
+        const phone = document.getElementById('c-phone').value;
+        const street = document.getElementById('c-street').value;
+        const province = document.getElementById('c-province').value;
+        const city = document.getElementById('c-city').value;
+        const zip = document.getElementById('c-zip').value;
+        const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+        if (!province) {
+          errorAlert.textContent = 'Please select a shipping province.';
+          errorAlert.classList.remove('d-none');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+          return;
+        }
+
+        // Handle Bank Transfer proof reading
+        let paymentProof = null;
+        if (paymentMethod === 'bank_transfer') {
+          const fileInput = document.getElementById('c-payment-proof');
+          const file = fileInput.files ? fileInput.files[0] : null;
+          
+          if (!file) {
+            errorAlert.textContent = 'Silakan unggah foto/screenshot bukti transfer terlebih dahulu.';
+            errorAlert.classList.remove('d-none');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            return;
+          }
+
+          try {
+            const base64Data = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = (err) => reject(err);
+              reader.readAsDataURL(file);
+            });
+
+            paymentProof = {
+              fileName: file.name,
+              fileType: file.type,
+              fileBase64: base64Data
+            };
+          } catch (fileErr) {
+            console.error(fileErr);
+            errorAlert.textContent = 'Gagal memproses file bukti transfer. Silakan coba lagi.';
+            errorAlert.classList.remove('d-none');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            return;
+          }
+        }
+
+        // Get active customer ID from global supabase client if logged in
+        let customerId = null;
+        const globalSupabase = window['supabase'];
+        if (globalSupabase) {
+          const { data: { session } } = await globalSupabase.auth.getSession();
+          if (session && session.user) {
+            customerId = session.user.id;
+          }
+        }
+
+        const orderData = {
+          customer_name: `${firstName} ${lastName}`,
+          phone: phone,
+          shipping_address: `${street}, ${city}, ZIP: ${zip}`,
+          province: province,
+          payment_method: paymentMethod,
+          items: cart,
+          customer_id: customerId,
+          payment_proof: paymentProof
+        };
+
+        try {
+          const res = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+          });
+          
+          const result = await res.json();
+          if (res.ok && result.success) {
+            // Clear cart
+            localStorage.setItem('cart', '[]');
+            window.dispatchEvent(new Event('cart-updated-internal'));
+            
+            // Redirect or show success
+            window.location.href = `/order-confirmation?id=${result.orderId}`;
+          } else {
+            errorAlert.textContent = result.error || 'Failed to place order.';
+            errorAlert.classList.remove('d-none');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+          }
+        } catch (err) {
+          console.error(err);
+          errorAlert.textContent = 'An error occurred. Please try again.';
+          errorAlert.classList.remove('d-none');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCheckoutPage);
+  </script>
+</ShopLayout>

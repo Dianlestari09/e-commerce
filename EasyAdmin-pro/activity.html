@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity Log - EasyAdmin</title>
+  <meta name="description" content="EasyAdmin - Bootstrap Admin Template">
+  <meta name="keywords" content="admin, dashboard, bootstrap">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/phosphor-icons/phosphor-icons.css" rel="stylesheet">
+  <link href="assets/vendor/lucide-icons/lucide.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/choices.js/choices.min.css" rel="stylesheet">
+  <link href="assets/vendor/flatpickr/flatpickr.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+    * Template Name: EasyAdmin - Bootstrap Admin Template
+    * Template URL: https://bootstrapmade.com/easy-admin-bootstrap-admin-html-template/
+    * Updated: Mar 04 2026 with Bootstrap v5.3.8
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <!-- Header Left -->
+    <div class="header-left">
+      <a href="index.html" class="header-logo">
+        <img src="assets/img/logo.webp" alt="EasyAdmin">
+        <span>EasyAdmin</span>
+      </a>
+      <button class="sidebar-toggle" title="Toggle Sidebar">
+        <i class="bi bi-list"></i>
+      </button>
+    </div>
+
+    <!-- Header Search (Desktop) - Expandable -->
+    <div class="header-search">
+      <form class="search-form collapsed" action="search-results.html" method="GET">
+        <button type="button" class="search-toggle-btn"><i class="bi bi-search"></i></button>
+        <input type="search" name="q" placeholder="Search..." autocomplete="off">
+      </form>
+    </div>
+
+    <!-- Header Right -->
+    <div class="header-right">
+      <!-- Desktop Actions (hidden on mobile, shown in mobile menu) -->
+      <div class="header-actions-desktop">
+        <!-- Theme Toggle -->
+        <button class="header-action theme-toggle" title="Toggle Theme">
+          <i class="bi bi-moon icon-dark"></i>
+          <i class="bi bi-sun icon-light"></i>
+        </button>
+
+        <!-- Fullscreen Toggle -->
+        <button class="header-action fullscreen-toggle" onclick="toggleFullscreen()" title="Fullscreen">
+          <i class="bi bi-fullscreen icon-enter"></i>
+          <i class="bi bi-fullscreen-exit icon-exit"></i>
+        </button>
+
+        <!-- Notifications -->
+        <div class="header-action dropdown notification-dropdown">
+          <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell"></i>
+            <span class="badge">3</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end">
+            <div class="notification-header">
+              <h6>Notifications</h6>
+              <a href="#" data-notification-action="mark-all-read">Mark all read</a>
+            </div>
+            <div class="notification-list">
+              <div class="notification-item unread">
+                <div class="notification-icon success">
+                  <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">Order Completed</div>
+                  <div class="notification-text">Your order #12345 has been delivered</div>
+                  <div class="notification-time">5 min ago</div>
+                </div>
+              </div>
+              <div class="notification-item unread">
+                <div class="notification-icon warning">
+                  <i class="bi bi-exclamation-triangle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">Low Storage</div>
+                  <div class="notification-text">Server storage is running low (85% used)</div>
+                  <div class="notification-time">1 hour ago</div>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon info">
+                  <i class="bi bi-info-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">New Feature</div>
+                  <div class="notification-text">Dark mode is now available</div>
+                  <div class="notification-time">2 hours ago</div>
+                </div>
+              </div>
+            </div>
+            <div class="notification-footer">
+              <a href="notifications.html">View all notifications</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Dropdown - shadcn style -->
+        <div class="header-action dropdown user-dropdown">
+          <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="assets/img/profile-img.webp" alt="User" class="avatar">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li class="dropdown-header">
+              <img src="assets/img/profile-img.webp" alt="User" class="user-avatar">
+              <div class="user-info">
+                <h6>John Doe</h6>
+                <span>john@example.com</span>
+              </div>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item" href="profile.html">
+                <i class="bi bi-person"></i> Profile
+                <span class="shortcut">⇧P</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="settings.html">
+                <i class="bi bi-gear"></i> Settings
+                <span class="shortcut">⇧S</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="notifications.html">
+                <i class="bi bi-bell"></i> Notifications
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="activity.html">
+                <i class="bi bi-activity"></i> Activity
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item dropdown-item-danger" href="auth-login.html">
+                <i class="bi bi-box-arrow-right"></i> Sign Out
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Mobile Actions (visible only on mobile) -->
+      <div class="header-actions-mobile">
+        <!-- Search Toggle (Mobile) -->
+        <button class="header-action search-toggle" title="Search">
+          <i class="bi bi-search"></i>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="header-action mobile-menu-toggle" title="More">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Search -->
+  <div class="mobile-search">
+    <form class="search-form" action="search-results.html" method="GET">
+      <input type="search" name="q" placeholder="Search..." autocomplete="off">
+      <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+  </div>
+
+  <!-- Mobile Header Menu -->
+  <div class="mobile-header-menu">
+    <div class="mobile-header-menu-content">
+      <!-- Theme Toggle -->
+      <button class="mobile-menu-item theme-toggle" title="Toggle Theme">
+        <i class="bi bi-moon icon-dark"></i>
+        <i class="bi bi-sun icon-light"></i>
+        <span class="mobile-menu-label">Theme</span>
+      </button>
+
+      <!-- Fullscreen Toggle -->
+      <button class="mobile-menu-item fullscreen-toggle" onclick="toggleFullscreen()" title="Fullscreen">
+        <i class="bi bi-fullscreen icon-enter"></i>
+        <i class="bi bi-fullscreen-exit icon-exit"></i>
+        <span class="mobile-menu-label">Fullscreen</span>
+      </button>
+
+      <!-- Notifications -->
+      <a href="notifications.html" class="mobile-menu-item">
+        <i class="bi bi-bell"></i>
+        <span class="badge">3</span>
+        <span class="mobile-menu-label">Notifications</span>
+      </a>
+
+      <!-- Profile -->
+      <a href="profile.html" class="mobile-menu-item">
+        <i class="bi bi-person"></i>
+        <span class="mobile-menu-label">Profile</span>
+      </a>
+
+      <!-- Settings -->
+      <a href="settings.html" class="mobile-menu-item">
+        <i class="bi bi-gear"></i>
+        <span class="mobile-menu-label">Settings</span>
+      </a>
+
+      <!-- Sign Out -->
+      <a href="auth-login.html" class="mobile-menu-item mobile-menu-item-danger">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="mobile-menu-label">Sign Out</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo">
+        <img src="assets/img/logo.webp" alt="EasyAdmin">
+        <span class="sidebar-logo-text">
+          <span class="sidebar-logo-name">EasyAdmin</span>
+          <span class="sidebar-logo-tagline">Admin Panel</span>
+        </span>
+      </a>
+      <button class="sidebar-close">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav">
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a class="nav-link " href="index.html" data-tooltip="Dashboard">
+            <i class="ph-duotone ph-squares-four"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Dashboards Submenu -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Dashboards">
+            <i class="ph-duotone ph-speedometer"></i>
+            <span>Dashboards</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="dashboard-sales.html">Sales</a></li>
+            <li><a class="nav-link " href="dashboard-analytics.html">Analytics</a></li>
+            <li><a class="nav-link " href="dashboard-crm.html">CRM</a></li>
+            <li><a class="nav-link " href="dashboard-marketing.html">Marketing</a></li>
+            <li><a class="nav-link " href="dashboard-projects.html">Projects</a></li>
+            <li><a class="nav-link " href="dashboard-finance.html">Finance</a></li>
+          </ul>
+        </li>
+
+        <!-- Users -->
+        <li class="nav-item has-submenu open">
+          <a class="nav-link" href="#" aria-expanded="true" data-tooltip="Users">
+            <i class="ph-duotone ph-users"></i>
+            <span>Users</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu show">
+            <li><a class="nav-link " href="users.html">Users List</a></li>
+            <li><a class="nav-link " href="users-view.html">User View</a></li>
+            <li><a class="nav-link " href="users-edit.html">User Edit</a></li>
+            <li><a class="nav-link " href="profile.html">Profile</a></li>
+            <!-- 3rd Level - Settings submenu -->
+            <li class="has-submenu open">
+              <a class="nav-link" href="#" aria-expanded="true">
+                Settings
+                <i class="ph-duotone ph-caret-down nav-arrow"></i>
+              </a>
+              <ul class="nav-submenu show">
+                <li><a class="nav-link " href="settings.html">Account</a></li>
+                <li><a class="nav-link " href="notifications.html">Notifications</a></li>
+                <li><a class="nav-link active" href="activity.html">Activity</a></li>
+              </ul>
+            </li>
+            <li><a class="nav-link " href="roles.html">Roles & Permissions</a></li>
+          </ul>
+        </li>
+
+        <!-- Authentication -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Authentication">
+            <i class="ph-duotone ph-shield-check"></i>
+            <span>Authentication</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="auth-login.html">Login</a></li>
+            <li><a class="nav-link " href="auth-register.html">Register</a></li>
+            <li><a class="nav-link " href="auth-forgot-password.html">Forgot Password</a></li>
+            <li><a class="nav-link " href="auth-reset-password.html">Reset Password</a></li>
+            <li><a class="nav-link " href="auth-verify-email.html">Email Verification</a></li>
+            <li><a class="nav-link " href="auth-two-factor.html">Two Factor Auth</a></li>
+            <li><a class="nav-link " href="auth-lock-screen.html">Lock Screen</a></li>
+          </ul>
+        </li>
+
+        <!-- Apps Section -->
+        <li class="nav-heading"><span>Apps</span></li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-calendar.html" data-tooltip="Calendar">
+            <i class="ph-duotone ph-calendar"></i>
+            <span>Calendar</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-kanban.html" data-tooltip="Kanban Board">
+            <i class="ph-duotone ph-kanban"></i>
+            <span>Kanban Board</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-chat.html" data-tooltip="Chat">
+            <i class="ph-duotone ph-chats"></i>
+            <span>Chat</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-contacts.html" data-tooltip="Contacts">
+            <i class="ph-duotone ph-address-book"></i>
+            <span>Contacts</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-file-manager.html" data-tooltip="File Manager">
+            <i class="ph-duotone ph-folder-open"></i>
+            <span>File Manager</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-email.html" data-tooltip="Email">
+            <i class="ph-duotone ph-envelope"></i>
+            <span>Email</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-todo.html" data-tooltip="Todo List">
+            <i class="ph-duotone ph-check-square"></i>
+            <span>Todo List</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-support.html" data-tooltip="Support Center">
+            <i class="ph-duotone ph-headset"></i>
+            <span>Support Center</span>
+          </a>
+        </li>
+
+        <!-- UI Elements Section -->
+        <li class="nav-heading"><span>UI Elements</span></li>
+
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Components">
+            <i class="ph-duotone ph-puzzle-piece"></i>
+            <span>Components</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="components-alerts.html">Alerts</a></li>
+            <li><a class="nav-link " href="components-accordion.html">Accordion</a></li>
+            <li><a class="nav-link " href="components-badges.html">Badges</a></li>
+            <li><a class="nav-link " href="components-breadcrumbs.html">Breadcrumbs</a></li>
+            <li><a class="nav-link " href="components-buttons.html">Buttons</a></li>
+            <li><a class="nav-link " href="components-cards.html">Cards</a></li>
+            <li><a class="nav-link " href="components-carousel.html">Carousel</a></li>
+            <li><a class="nav-link " href="components-dropdowns.html">Dropdowns</a></li>
+            <li><a class="nav-link " href="components-list-group.html">List Group</a></li>
+            <li><a class="nav-link " href="components-modal.html">Modal</a></li>
+            <li><a class="nav-link " href="components-nav-tabs.html">Navs & Tabs</a></li>
+            <li><a class="nav-link " href="components-offcanvas.html">Offcanvas</a></li>
+            <li><a class="nav-link " href="components-pagination.html">Pagination</a></li>
+            <li><a class="nav-link " href="components-popovers.html">Popovers</a></li>
+            <li><a class="nav-link " href="components-progress.html">Progress</a></li>
+            <li><a class="nav-link " href="components-spinners.html">Spinners</a></li>
+            <li><a class="nav-link " href="components-toasts.html">Toasts</a></li>
+            <li><a class="nav-link " href="components-tooltips.html">Tooltips</a></li>
+          </ul>
+        </li>
+
+        <!-- Widgets -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Widgets">
+            <i class="ph-duotone ph-layout"></i>
+            <span>Widgets</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="widgets-cards.html">Cards</a></li>
+            <li><a class="nav-link " href="widgets-banners.html">Banners</a></li>
+            <li><a class="nav-link " href="widgets-charts.html">Charts</a></li>
+            <li><a class="nav-link " href="widgets-apps.html">Apps</a></li>
+            <li><a class="nav-link " href="widgets-data.html">Data</a></li>
+          </ul>
+        </li>
+
+        <!-- Forms Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Forms">
+            <i class="ph-duotone ph-textbox"></i>
+            <span>Forms</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="forms-elements.html">Form Elements</a></li>
+            <li><a class="nav-link " href="forms-layouts.html">Form Layouts</a></li>
+            <li><a class="nav-link " href="forms-validation.html">Validation</a></li>
+            <li><a class="nav-link " href="forms-wizard.html">Wizard</a></li>
+            <li><a class="nav-link " href="forms-editors.html">Rich Editors</a></li>
+            <li><a class="nav-link " href="forms-pickers.html">Date/Time Pickers</a></li>
+            <li><a class="nav-link " href="forms-select.html">Advanced Select</a></li>
+            <li><a class="nav-link " href="forms-upload.html">File Upload</a></li>
+          </ul>
+        </li>
+
+        <!-- Tables Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Tables">
+            <i class="ph-duotone ph-table"></i>
+            <span>Tables</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="tables-basic.html">Basic Tables</a></li>
+            <li><a class="nav-link " href="tables-datatables.html">DataTables</a></li>
+            <li><a class="nav-link " href="tables-responsive.html">Responsive Tables</a></li>
+          </ul>
+        </li>
+
+        <!-- Charts Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Charts">
+            <i class="ph-duotone ph-chart-bar"></i>
+            <span>Charts</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="charts-apexcharts.html">ApexCharts</a></li>
+            <li><a class="nav-link " href="charts-chartjs.html">Chart.js</a></li>
+            <li><a class="nav-link " href="charts-echarts.html">ECharts</a></li>
+          </ul>
+        </li>
+
+        <!-- Icons Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Icons">
+            <i class="ph-duotone ph-diamond"></i>
+            <span>Icons</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="icons-bootstrap.html">Bootstrap Icons</a></li>
+            <li><a class="nav-link " href="icons-remixicon.html">Remix Icons</a></li>
+            <li><a class="nav-link " href="icons-fontawesome.html">Font Awesome</a></li>
+            <li><a class="nav-link " href="icons-phosphor.html">Phosphor Icons</a></li>
+            <li><a class="nav-link " href="icons-lucide.html">Lucide Icons</a></li>
+          </ul>
+        </li>
+
+        <!-- Pages Section -->
+        <li class="nav-heading"><span>Pages</span></li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="contact.html" data-tooltip="Contact">
+            <i class="ph-duotone ph-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </li>
+
+        <!-- Invoices -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Invoices">
+            <i class="ph-duotone ph-receipt"></i>
+            <span>Invoices</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="invoice-list.html">Invoice List</a></li>
+            <li><a class="nav-link " href="invoice.html">Invoice View</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="pricing.html" data-tooltip="Pricing">
+            <i class="ph-duotone ph-tag"></i>
+            <span>Pricing</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="faq.html" data-tooltip="FAQ">
+            <i class="ph-duotone ph-question"></i>
+            <span>FAQ</span>
+          </a>
+        </li>
+
+        <!-- Error Pages -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Error Pages">
+            <i class="ph-duotone ph-warning"></i>
+            <span>Error Pages</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="error-404.html">404 Not Found</a></li>
+            <li><a class="nav-link " href="error-403.html">403 Forbidden</a></li>
+            <li><a class="nav-link " href="error-500.html">500 Server Error</a></li>
+            <li><a class="nav-link " href="error-maintenance.html">Maintenance</a></li>
+            <li><a class="nav-link " href="error-coming-soon.html">Coming Soon</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="timeline.html" data-tooltip="Timeline">
+            <i class="ph-duotone ph-clock-counter-clockwise"></i>
+            <span>Timeline</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="search-results.html" data-tooltip="Search Results">
+            <i class="ph-duotone ph-magnifying-glass"></i>
+            <span>Search Results</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="blank.html" data-tooltip="Blank Page">
+            <i class="ph-duotone ph-file"></i>
+            <span>Blank Page</span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+  </aside>
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="main-content">
+      <div class="pagetitle">
+        <h1>Activity Log</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Activity Log</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Recent Activity</h5>
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-funnel"></i> Filter
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">All Activities</a></li>
+                    <li><a class="dropdown-item" href="#">Login Activity</a></li>
+                    <li><a class="dropdown-item" href="#">Profile Changes</a></li>
+                    <li><a class="dropdown-item" href="#">Security Events</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="activity-log">
+                  <!-- Today -->
+                  <div class="activity-date">
+                    <span>Today</span>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-icon bg-success-light text-success">
+                      <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">Password changed successfully</div>
+                      <div class="activity-description">Your account password was updated</div>
+                      <div class="activity-time"><i class="bi bi-clock"></i> 2 hours ago</div>
+                    </div>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-icon bg-primary-light text-primary">
+                      <i class="bi bi-box-arrow-in-right"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">Logged in from new device</div>
+                      <div class="activity-description">Chrome on Windows 11 • New York, USA</div>
+                      <div class="activity-time"><i class="bi bi-clock"></i> 5 hours ago</div>
+                    </div>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-icon bg-info-light text-info">
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">Profile information updated</div>
+                      <div class="activity-description">Changed phone number and address</div>
+                      <div class="activity-time"><i class="bi bi-clock"></i> 8 hours ago</div>
+                    </div>
+                  </div>
+
+                  <!-- Yesterday -->
+                  <div class="activity-date">
+                    <span>Yesterday</span>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-icon bg-warning-light text-warning">
+                      <i class="bi bi-shield-exclamation"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">Two-factor authentication enabled</div>
+                      <div class="activity-description">Added authenticator app for extra security</div>
+                      <div class="activity-time"><i class="bi bi-clock"></i> Yesterday at 3:45 PM</div>
+                    </div>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-icon bg-primary-light text-primary">
+                      <i class="bi bi-box-arrow-in-right"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">Logged in</div>
+                      <div class="activity-description">Safari on macOS • San Francisco, USA</div>
+                      <div class="activity-time"><i class="bi bi-clock"></i> Yesterday at 9:12 AM</div>
+                    </div>
+                  </div>
+
+                  <!-- This Week -->
+                  <div class="activity-date">
+                    <span>This Week</span>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-icon bg-danger-light text-danger">
+                      <i class="bi bi-x-circle"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">Failed login attempt</div>
+                      <div class="activity-description">Incorrect password entered • Unknown device</div>
+                      <div class="activity-time"><i class="bi bi-clock"></i> Monday at 11:30 PM</div>
+                    </div>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-icon bg-info-light text-info">
+                      <i class="bi bi-envelope"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">Email address verified</div>
+                      <div class="activity-description">k.anderson@example.com is now verified</div>
+                      <div class="activity-time"><i class="bi bi-clock"></i> Monday at 2:15 PM</div>
+                    </div>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-icon bg-success-light text-success">
+                      <i class="bi bi-person-plus"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">Account created</div>
+                      <div class="activity-description">Welcome to EasyAdmin!</div>
+                      <div class="activity-time"><i class="bi bi-clock"></i> Sunday at 10:00 AM</div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Load More -->
+                <div class="text-center mt-4">
+                  <button class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Load More Activity
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <!-- Activity Summary -->
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title mb-0">Activity Summary</h5>
+              </div>
+              <div class="card-body">
+                <div class="activity-stat">
+                  <div class="activity-stat-icon bg-primary-light text-primary">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                  </div>
+                  <div class="activity-stat-info">
+                    <div class="activity-stat-value">24</div>
+                    <div class="activity-stat-label">Total Logins</div>
+                  </div>
+                </div>
+
+                <div class="activity-stat">
+                  <div class="activity-stat-icon bg-success-light text-success">
+                    <i class="bi bi-pencil-square"></i>
+                  </div>
+                  <div class="activity-stat-info">
+                    <div class="activity-stat-value">8</div>
+                    <div class="activity-stat-label">Profile Updates</div>
+                  </div>
+                </div>
+
+                <div class="activity-stat">
+                  <div class="activity-stat-icon bg-warning-light text-warning">
+                    <i class="bi bi-shield-check"></i>
+                  </div>
+                  <div class="activity-stat-info">
+                    <div class="activity-stat-value">3</div>
+                    <div class="activity-stat-label">Security Changes</div>
+                  </div>
+                </div>
+
+                <div class="activity-stat">
+                  <div class="activity-stat-icon bg-danger-light text-danger">
+                    <i class="bi bi-exclamation-triangle"></i>
+                  </div>
+                  <div class="activity-stat-info">
+                    <div class="activity-stat-value">1</div>
+                    <div class="activity-stat-label">Failed Attempts</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Sessions -->
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title mb-0">Active Sessions</h5>
+              </div>
+              <div class="card-body">
+                <div class="session-item current">
+                  <div class="session-icon">
+                    <i class="bi bi-laptop"></i>
+                  </div>
+                  <div class="session-info">
+                    <div class="session-device">Chrome on Windows</div>
+                    <div class="session-location">New York, USA</div>
+                    <span class="badge bg-success">Current</span>
+                  </div>
+                </div>
+
+                <div class="session-item">
+                  <div class="session-icon">
+                    <i class="bi bi-phone"></i>
+                  </div>
+                  <div class="session-info">
+                    <div class="session-device">Safari on iPhone</div>
+                    <div class="session-location">San Francisco, USA</div>
+                    <div class="session-time">Active 2 hours ago</div>
+                  </div>
+                  <button class="btn btn-sm btn-outline-danger session-revoke">Revoke</button>
+                </div>
+
+                <div class="session-item">
+                  <div class="session-icon">
+                    <i class="bi bi-tablet"></i>
+                  </div>
+                  <div class="session-info">
+                    <div class="session-device">Chrome on iPad</div>
+                    <div class="session-location">Los Angeles, USA</div>
+                    <div class="session-time">Active 1 day ago</div>
+                  </div>
+                  <button class="btn btn-sm btn-outline-danger session-revoke">Revoke</button>
+                </div>
+
+                <div class="mt-3">
+                  <button class="btn btn-outline-danger btn-sm w-100">
+                    <i class="bi bi-box-arrow-right me-1"></i> Sign Out All Other Sessions
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer-copyright">
+          &copy; 2026 <a href="#">EasyAdmin</a>. All Rights Reserved.
+        </div>
+        <div class="footer-credits">
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Back to Top -->
+  <a href="#" class="back-to-top">
+    <i class="bi bi-arrow-up"></i>
+  </a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/choices.js/choices.min.js"></script>
+  <script src="assets/vendor/flatpickr/flatpickr.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS Files -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- App Sidebar Toggle (for app pages with sidebars) -->
+  <script src="assets/js/apps-sidebar-toggle.js"></script>
+
+</body>
+
+</html>

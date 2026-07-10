@@ -1,0 +1,337 @@
+---
+import ShopLayout from '../layouts/ShopLayout.astro';
+import { supabase } from '../lib/supabase';
+
+// Parse query params
+const url = new URL(Astro.request.url);
+const searchQuery = url.searchParams.get('q') || '';
+const categoryFilter = url.searchParams.get('category') || '';
+const minPriceParam = url.searchParams.get('min_price') || '';
+const maxPriceParam = url.searchParams.get('max_price') || '';
+const sortBy = url.searchParams.get('sort') || 'featured';
+
+let products: any[] = [];
+let categories: any[] = [];
+let errorMsg = '';
+
+try {
+  // Fetch all products
+  const { data: dbProducts, error: pError } = await supabase
+    .from('products')
+    .select(`
+      *,
+      categories (
+        id,
+        name,
+        slug
+      )
+    `);
+
+  if (pError) throw pError;
+  
+  if (dbProducts) {
+    products = dbProducts.map(p => ({
+      id: p.id,
+      name: p.name,
+      price: Number(p.price),
+      sale_price: p.sale_price ? Number(p.sale_price) : null,
+      image: p.images?.[0] || '/shop/assets/img/product/product-default.webp',
+      category: p.categories?.name || 'General',
+      category_slug: p.categories?.slug || '',
+      is_featured: p.is_featured,
+      created_at: p.created_at,
+      rating: 4.5,
+      reviews_count: 25,
+      colors: p.colors || [],
+      sizes: p.sizes || []
+    }));
+  }
+
+  // Fetch all categories
+  const { data: dbCategories, error: cError } = await supabase
+    .from('categories')
+    .select('*');
+
+  if (cError) throw cError;
+
+  if (dbCategories) {
+    categories = dbCategories;
+  }
+} catch (e: any) {
+  console.error("Search fetch failed:", e);
+  errorMsg = e.message;
+}
+
+// 1. Apply Filters in JS
+let filteredProducts = [...products];
+
+// Search filter
+if (searchQuery) {
+  const q = searchQuery.toLowerCase().trim();
+  filteredProducts = filteredProducts.filter(p => 
+    p.name.toLowerCase().includes(q) || 
+    p.category.toLowerCase().includes(q)
+  );
+}
+
+// Category filter
+if (categoryFilter) {
+  filteredProducts = filteredProducts.filter(p => p.category_slug === categoryFilter);
+}
+
+// Price filter
+const minPrice = minPriceParam ? Number(minPriceParam) : 0;
+const maxPrice = maxPriceParam ? Number(maxPriceParam) : Infinity;
+
+filteredProducts = filteredProducts.filter(p => {
+  const price = p.price;
+  return price >= minPrice && price <= maxPrice;
+});
+
+// 2. Apply Sorting
+if (sortBy === 'price-asc') {
+  filteredProducts.sort((a, b) => a.price - b.price);
+} else if (sortBy === 'price-desc') {
+  filteredProducts.sort((a, b) => b.price - a.price);
+} else if (sortBy === 'newest') {
+  filteredProducts.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+} else {
+  // 'featured'
+  filteredProducts.sort((a, b) => (b.is_featured ? 1 : 0) - (a.is_featured ? 1 : 0));
+}
+
+// Calculate max price range for visual helpers
+const absoluteMaxPrice = products.length > 0 ? Math.max(...products.map(p => p.price)) : 1000;
+---
+
+<ShopLayout title="Search Products - ShopWise">
+  <main class="main">
+    <!-- Page Header -->
+    <div class="page-title light-background mb-4">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Search Results</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li class="current">Search</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Product Grid & Filters -->
+    <section class="py-4 bg-white">
+      <div class="container">
+        <div class="row g-4">
+          <!-- Sidebar Filters -->
+          <div class="col-lg-3 col-md-4">
+            <div class="card border-0 shadow-sm p-4 bg-light rounded-3 mb-4">
+              <h5 class="fw-bold mb-3 border-bottom pb-2">Filter Products</h5>
+
+              <!-- Keyword Search Form -->
+              <form action="/search" method="GET" class="mb-4">
+                <label class="form-label small fw-semibold text-muted">KEYWORD</label>
+                <div class="input-group">
+                  <input type="text" class="form-control bg-white" name="q" placeholder="Search..." value={searchQuery}>
+                  {categoryFilter && <input type="hidden" name="category" value={categoryFilter} />}
+                  {minPriceParam && <input type="hidden" name="min_price" value={minPriceParam} />}
+                  {maxPriceParam && <input type="hidden" name="max_price" value={maxPriceParam} />}
+                  {sortBy !== 'featured' && <input type="hidden" name="sort" value={sortBy} />}
+                  <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+                </div>
+              </form>
+
+              <!-- Categories Filter List -->
+              <div class="mb-4">
+                <label class="form-label small fw-semibold text-muted">CATEGORIES</label>
+                <ul class="list-unstyled mb-0">
+                  <li class="mb-2">
+                    <a href={`/search?q=${searchQuery}&min_price=${minPriceParam}&max_price=${maxPriceParam}&sort=${sortBy}`} 
+                       class={`text-decoration-none small ${!categoryFilter ? 'fw-bold text-primary' : 'text-dark'}`}>
+                      All Categories ({products.length})
+                    </a>
+                  </li>
+                  {categories.map(cat => {
+                    const count = products.filter(p => p.category_slug === cat.slug).length;
+                    return (
+                      <li class="mb-2">
+                        <a href={`/search?category=${cat.slug}&q=${searchQuery}&min_price=${minPriceParam}&max_price=${maxPriceParam}&sort=${sortBy}`} 
+                           class={`text-decoration-none small ${categoryFilter === cat.slug ? 'fw-bold text-primary' : 'text-dark'}`}>
+                          {cat.name} ({count})
+                        </a>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+
+              <!-- Price Filter Form -->
+              <div class="mb-4">
+                <label class="form-label small fw-semibold text-muted">PRICE RANGE</label>
+                <form action="/search" method="GET" class="row g-2 align-items-center">
+                  {searchQuery && <input type="hidden" name="q" value={searchQuery} />}
+                  {categoryFilter && <input type="hidden" name="category" value={categoryFilter} />}
+                  {sortBy !== 'featured' && <input type="hidden" name="sort" value={sortBy} />}
+                  
+                  <div class="col-6">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text">$</span>
+                      <input type="number" class="form-control" name="min_price" placeholder="Min" value={minPriceParam} min="0">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text">$</span>
+                      <input type="number" class="form-control" name="max_price" placeholder="Max" value={maxPriceParam} min="0">
+                    </div>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <button class="btn btn-outline-primary btn-sm w-100 fw-bold" type="submit">Apply Price</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Clear Filters -->
+              <a href="/search" class="btn btn-light btn-sm w-100 fw-bold text-muted border-0">
+                <i class="bi bi-x-circle me-1"></i> Reset All Filters
+              </a>
+            </div>
+          </div>
+
+          <!-- Products Content Area -->
+          <div class="col-lg-9 col-md-8">
+            <!-- Grid Header Actions -->
+            <div class="d-flex justify-content-between align-items-center mb-4 bg-light p-3 rounded-3 border-0">
+              <span class="text-muted small">
+                Showing <strong class="text-dark">{filteredProducts.length}</strong> products
+                {searchQuery && <> for "<strong>{searchQuery}</strong>"</>}
+              </span>
+
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small d-none d-sm-inline">Sort by:</span>
+                <select class="form-select form-select-sm" id="sort-select" style="width: auto; min-width: 160px;">
+                  <option value="featured" selected={sortBy === 'featured'}>Featured</option>
+                  <option value="price-asc" selected={sortBy === 'price-asc'}>Price: Low to High</option>
+                  <option value="price-desc" selected={sortBy === 'price-desc'}>Price: High to Low</option>
+                  <option value="newest" selected={sortBy === 'newest'}>Newest Arrivals</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Error Banner -->
+            {errorMsg && (
+              <div class="alert alert-danger" role="alert">
+                Error loading search: {errorMsg}
+              </div>
+            )}
+
+            <!-- Products Grid -->
+            {filteredProducts.length === 0 ? (
+              <div class="text-center py-5">
+                <i class="bi bi-search text-muted" style="font-size: 3rem;"></i>
+                <h4 class="mt-3 fw-bold">No products found</h4>
+                <p class="text-muted">We couldn't find matches. Try adjusting your query keywords or price filters.</p>
+                <a href="/search" class="btn btn-primary btn-sm mt-2 px-4 py-2">Reset Filters</a>
+              </div>
+            ) : (
+              <div class="row g-4">
+                {filteredProducts.map(prod => (
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="product-card h-100 border rounded p-2 bg-white">
+                      <div class="product-media position-relative rounded overflow-hidden">
+                        <img src={prod.image} alt={prod.name} class="img-fluid w-100 object-fit-cover" style="height: 250px;" loading="lazy">
+                        {prod.sale_price && (
+                          <div class="badge-label discount position-absolute top-0 start-0 m-2">
+                            -{Math.round((1 - (prod.price / prod.sale_price)) * 100)}%
+                          </div>
+                        )}
+                        <div class="action-overlay position-absolute bottom-0 end-0 m-2 d-flex flex-column gap-2 opacity-0">
+                          <button 
+                            class="action-btn btn btn-light rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center" 
+                            aria-label="Add to wishlist"
+                            onclick={`toggleWishlist({id: '${prod.id}', name: '${prod.name.replace(/'/g, "\\'")}', price: ${prod.price}, image: '${prod.image}'})`}
+                            style="width: 36px; height: 36px;"
+                          >
+                            <i class="bi bi-heart"></i>
+                          </button>
+                          <a 
+                            href={`/product/${prod.id}`} 
+                            class="action-btn btn btn-light rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center" 
+                            aria-label="Quick view"
+                            style="width: 36px; height: 36px;"
+                          >
+                            <i class="bi bi-eye"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="product-body pt-3">
+                        <div class="product-meta d-flex justify-content-between mb-2">
+                          <span class="category-tag text-uppercase text-muted fw-bold" style="font-size: 0.75rem;">{prod.category}</span>
+                          <div class="rating-group small text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <span class="text-dark ms-1">{prod.rating}</span>
+                          </div>
+                        </div>
+                        <h5 class="product-title fw-semibold mb-2" style="font-size: 0.95rem;">
+                          <a href={`/product/${prod.id}`} class="text-decoration-none text-dark">{prod.name}</a>
+                        </h5>
+                        <div class="product-footer d-flex align-items-center justify-content-between pt-2 border-top">
+                          <div class="product-price fw-bold">
+                            {prod.sale_price ? (
+                              <>
+                                <span class="original text-decoration-line-through text-muted me-2 small">${prod.sale_price.toFixed(2)}</span>
+                                <span class="current text-primary">${prod.price.toFixed(2)}</span>
+                              </>
+                            ) : (
+                              `$${prod.price.toFixed(2)}`
+                            )}
+                          </div>
+                          <button 
+                            class="btn btn-outline-primary btn-sm rounded-3 py-1 px-2.5" 
+                            aria-label="Add to cart"
+                            onclick={`handleQuickAdd(event, '${prod.id}', '${prod.name.replace(/'/g, "\\'")}', ${prod.price}, '${prod.image}', ${(prod.colors && prod.colors.length > 0) || (prod.sizes && prod.sizes.length > 0)})`}
+                          >
+                            <i class="bi bi-bag-plus"></i> Add
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ searchQuery, categoryFilter, minPriceParam, maxPriceParam, sortBy }}>
+    // Setup Sort Listener
+    const sortSelect = document.getElementById('sort-select');
+    sortSelect?.addEventListener('change', (e) => {
+      const selected = e.target.value;
+      const url = new URL(window.location.href);
+      url.searchParams.set('sort', selected);
+      window.location.href = url.toString();
+    });
+  </script>
+</ShopLayout>
+
+<style>
+  /* Enable overlay buttons visibility on hover of search cards */
+  .product-card:hover .action-overlay {
+    opacity: 1 !important;
+  }
+  .product-media .action-overlay {
+    transition: opacity 0.3s ease;
+  }
+  .badge-label.discount {
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+</style>

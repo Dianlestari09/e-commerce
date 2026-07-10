@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoices - EasyAdmin</title>
+  <meta name="description" content="EasyAdmin - Bootstrap Admin Template">
+  <meta name="keywords" content="admin, dashboard, bootstrap">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/phosphor-icons/phosphor-icons.css" rel="stylesheet">
+  <link href="assets/vendor/lucide-icons/lucide.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/choices.js/choices.min.css" rel="stylesheet">
+  <link href="assets/vendor/flatpickr/flatpickr.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+    * Template Name: EasyAdmin - Bootstrap Admin Template
+    * Template URL: https://bootstrapmade.com/easy-admin-bootstrap-admin-html-template/
+    * Updated: Mar 04 2026 with Bootstrap v5.3.8
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <!-- Header Left -->
+    <div class="header-left">
+      <a href="index.html" class="header-logo">
+        <img src="assets/img/logo.webp" alt="EasyAdmin">
+        <span>EasyAdmin</span>
+      </a>
+      <button class="sidebar-toggle" title="Toggle Sidebar">
+        <i class="bi bi-list"></i>
+      </button>
+    </div>
+
+    <!-- Header Search (Desktop) - Expandable -->
+    <div class="header-search">
+      <form class="search-form collapsed" action="search-results.html" method="GET">
+        <button type="button" class="search-toggle-btn"><i class="bi bi-search"></i></button>
+        <input type="search" name="q" placeholder="Search..." autocomplete="off">
+      </form>
+    </div>
+
+    <!-- Header Right -->
+    <div class="header-right">
+      <!-- Desktop Actions (hidden on mobile, shown in mobile menu) -->
+      <div class="header-actions-desktop">
+        <!-- Theme Toggle -->
+        <button class="header-action theme-toggle" title="Toggle Theme">
+          <i class="bi bi-moon icon-dark"></i>
+          <i class="bi bi-sun icon-light"></i>
+        </button>
+
+        <!-- Fullscreen Toggle -->
+        <button class="header-action fullscreen-toggle" onclick="toggleFullscreen()" title="Fullscreen">
+          <i class="bi bi-fullscreen icon-enter"></i>
+          <i class="bi bi-fullscreen-exit icon-exit"></i>
+        </button>
+
+        <!-- Notifications -->
+        <div class="header-action dropdown notification-dropdown">
+          <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell"></i>
+            <span class="badge">3</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end">
+            <div class="notification-header">
+              <h6>Notifications</h6>
+              <a href="#" data-notification-action="mark-all-read">Mark all read</a>
+            </div>
+            <div class="notification-list">
+              <div class="notification-item unread">
+                <div class="notification-icon success">
+                  <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">Order Completed</div>
+                  <div class="notification-text">Your order #12345 has been delivered</div>
+                  <div class="notification-time">5 min ago</div>
+                </div>
+              </div>
+              <div class="notification-item unread">
+                <div class="notification-icon warning">
+                  <i class="bi bi-exclamation-triangle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">Low Storage</div>
+                  <div class="notification-text">Server storage is running low (85% used)</div>
+                  <div class="notification-time">1 hour ago</div>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon info">
+                  <i class="bi bi-info-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">New Feature</div>
+                  <div class="notification-text">Dark mode is now available</div>
+                  <div class="notification-time">2 hours ago</div>
+                </div>
+              </div>
+            </div>
+            <div class="notification-footer">
+              <a href="notifications.html">View all notifications</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Dropdown - shadcn style -->
+        <div class="header-action dropdown user-dropdown">
+          <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="assets/img/profile-img.webp" alt="User" class="avatar">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li class="dropdown-header">
+              <img src="assets/img/profile-img.webp" alt="User" class="user-avatar">
+              <div class="user-info">
+                <h6>John Doe</h6>
+                <span>john@example.com</span>
+              </div>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item" href="profile.html">
+                <i class="bi bi-person"></i> Profile
+                <span class="shortcut">⇧P</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="settings.html">
+                <i class="bi bi-gear"></i> Settings
+                <span class="shortcut">⇧S</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="notifications.html">
+                <i class="bi bi-bell"></i> Notifications
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="activity.html">
+                <i class="bi bi-activity"></i> Activity
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item dropdown-item-danger" href="auth-login.html">
+                <i class="bi bi-box-arrow-right"></i> Sign Out
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Mobile Actions (visible only on mobile) -->
+      <div class="header-actions-mobile">
+        <!-- Search Toggle (Mobile) -->
+        <button class="header-action search-toggle" title="Search">
+          <i class="bi bi-search"></i>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="header-action mobile-menu-toggle" title="More">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Search -->
+  <div class="mobile-search">
+    <form class="search-form" action="search-results.html" method="GET">
+      <input type="search" name="q" placeholder="Search..." autocomplete="off">
+      <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+  </div>
+
+  <!-- Mobile Header Menu -->
+  <div class="mobile-header-menu">
+    <div class="mobile-header-menu-content">
+      <!-- Theme Toggle -->
+      <button class="mobile-menu-item theme-toggle" title="Toggle Theme">
+        <i class="bi bi-moon icon-dark"></i>
+        <i class="bi bi-sun icon-light"></i>
+        <span class="mobile-menu-label">Theme</span>
+      </button>
+
+      <!-- Fullscreen Toggle -->
+      <button class="mobile-menu-item fullscreen-toggle" onclick="toggleFullscreen()" title="Fullscreen">
+        <i class="bi bi-fullscreen icon-enter"></i>
+        <i class="bi bi-fullscreen-exit icon-exit"></i>
+        <span class="mobile-menu-label">Fullscreen</span>
+      </button>
+
+      <!-- Notifications -->
+      <a href="notifications.html" class="mobile-menu-item">
+        <i class="bi bi-bell"></i>
+        <span class="badge">3</span>
+        <span class="mobile-menu-label">Notifications</span>
+      </a>
+
+      <!-- Profile -->
+      <a href="profile.html" class="mobile-menu-item">
+        <i class="bi bi-person"></i>
+        <span class="mobile-menu-label">Profile</span>
+      </a>
+
+      <!-- Settings -->
+      <a href="settings.html" class="mobile-menu-item">
+        <i class="bi bi-gear"></i>
+        <span class="mobile-menu-label">Settings</span>
+      </a>
+
+      <!-- Sign Out -->
+      <a href="auth-login.html" class="mobile-menu-item mobile-menu-item-danger">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="mobile-menu-label">Sign Out</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo">
+        <img src="assets/img/logo.webp" alt="EasyAdmin">
+        <span class="sidebar-logo-text">
+          <span class="sidebar-logo-name">EasyAdmin</span>
+          <span class="sidebar-logo-tagline">Admin Panel</span>
+        </span>
+      </a>
+      <button class="sidebar-close">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav">
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a class="nav-link " href="index.html" data-tooltip="Dashboard">
+            <i class="ph-duotone ph-squares-four"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Dashboards Submenu -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Dashboards">
+            <i class="ph-duotone ph-speedometer"></i>
+            <span>Dashboards</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="dashboard-sales.html">Sales</a></li>
+            <li><a class="nav-link " href="dashboard-analytics.html">Analytics</a></li>
+            <li><a class="nav-link " href="dashboard-crm.html">CRM</a></li>
+            <li><a class="nav-link " href="dashboard-marketing.html">Marketing</a></li>
+            <li><a class="nav-link " href="dashboard-projects.html">Projects</a></li>
+            <li><a class="nav-link " href="dashboard-finance.html">Finance</a></li>
+          </ul>
+        </li>
+
+        <!-- Users -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Users">
+            <i class="ph-duotone ph-users"></i>
+            <span>Users</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="users.html">Users List</a></li>
+            <li><a class="nav-link " href="users-view.html">User View</a></li>
+            <li><a class="nav-link " href="users-edit.html">User Edit</a></li>
+            <li><a class="nav-link " href="profile.html">Profile</a></li>
+            <!-- 3rd Level - Settings submenu -->
+            <li class="has-submenu ">
+              <a class="nav-link" href="#" aria-expanded="false">
+                Settings
+                <i class="ph-duotone ph-caret-down nav-arrow"></i>
+              </a>
+              <ul class="nav-submenu ">
+                <li><a class="nav-link " href="settings.html">Account</a></li>
+                <li><a class="nav-link " href="notifications.html">Notifications</a></li>
+                <li><a class="nav-link " href="activity.html">Activity</a></li>
+              </ul>
+            </li>
+            <li><a class="nav-link " href="roles.html">Roles & Permissions</a></li>
+          </ul>
+        </li>
+
+        <!-- Authentication -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Authentication">
+            <i class="ph-duotone ph-shield-check"></i>
+            <span>Authentication</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="auth-login.html">Login</a></li>
+            <li><a class="nav-link " href="auth-register.html">Register</a></li>
+            <li><a class="nav-link " href="auth-forgot-password.html">Forgot Password</a></li>
+            <li><a class="nav-link " href="auth-reset-password.html">Reset Password</a></li>
+            <li><a class="nav-link " href="auth-verify-email.html">Email Verification</a></li>
+            <li><a class="nav-link " href="auth-two-factor.html">Two Factor Auth</a></li>
+            <li><a class="nav-link " href="auth-lock-screen.html">Lock Screen</a></li>
+          </ul>
+        </li>
+
+        <!-- Apps Section -->
+        <li class="nav-heading"><span>Apps</span></li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-calendar.html" data-tooltip="Calendar">
+            <i class="ph-duotone ph-calendar"></i>
+            <span>Calendar</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-kanban.html" data-tooltip="Kanban Board">
+            <i class="ph-duotone ph-kanban"></i>
+            <span>Kanban Board</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-chat.html" data-tooltip="Chat">
+            <i class="ph-duotone ph-chats"></i>
+            <span>Chat</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-contacts.html" data-tooltip="Contacts">
+            <i class="ph-duotone ph-address-book"></i>
+            <span>Contacts</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-file-manager.html" data-tooltip="File Manager">
+            <i class="ph-duotone ph-folder-open"></i>
+            <span>File Manager</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-email.html" data-tooltip="Email">
+            <i class="ph-duotone ph-envelope"></i>
+            <span>Email</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-todo.html" data-tooltip="Todo List">
+            <i class="ph-duotone ph-check-square"></i>
+            <span>Todo List</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="apps-support.html" data-tooltip="Support Center">
+            <i class="ph-duotone ph-headset"></i>
+            <span>Support Center</span>
+          </a>
+        </li>
+
+        <!-- UI Elements Section -->
+        <li class="nav-heading"><span>UI Elements</span></li>
+
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Components">
+            <i class="ph-duotone ph-puzzle-piece"></i>
+            <span>Components</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="components-alerts.html">Alerts</a></li>
+            <li><a class="nav-link " href="components-accordion.html">Accordion</a></li>
+            <li><a class="nav-link " href="components-badges.html">Badges</a></li>
+            <li><a class="nav-link " href="components-breadcrumbs.html">Breadcrumbs</a></li>
+            <li><a class="nav-link " href="components-buttons.html">Buttons</a></li>
+            <li><a class="nav-link " href="components-cards.html">Cards</a></li>
+            <li><a class="nav-link " href="components-carousel.html">Carousel</a></li>
+            <li><a class="nav-link " href="components-dropdowns.html">Dropdowns</a></li>
+            <li><a class="nav-link " href="components-list-group.html">List Group</a></li>
+            <li><a class="nav-link " href="components-modal.html">Modal</a></li>
+            <li><a class="nav-link " href="components-nav-tabs.html">Navs & Tabs</a></li>
+            <li><a class="nav-link " href="components-offcanvas.html">Offcanvas</a></li>
+            <li><a class="nav-link " href="components-pagination.html">Pagination</a></li>
+            <li><a class="nav-link " href="components-popovers.html">Popovers</a></li>
+            <li><a class="nav-link " href="components-progress.html">Progress</a></li>
+            <li><a class="nav-link " href="components-spinners.html">Spinners</a></li>
+            <li><a class="nav-link " href="components-toasts.html">Toasts</a></li>
+            <li><a class="nav-link " href="components-tooltips.html">Tooltips</a></li>
+          </ul>
+        </li>
+
+        <!-- Widgets -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Widgets">
+            <i class="ph-duotone ph-layout"></i>
+            <span>Widgets</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="widgets-cards.html">Cards</a></li>
+            <li><a class="nav-link " href="widgets-banners.html">Banners</a></li>
+            <li><a class="nav-link " href="widgets-charts.html">Charts</a></li>
+            <li><a class="nav-link " href="widgets-apps.html">Apps</a></li>
+            <li><a class="nav-link " href="widgets-data.html">Data</a></li>
+          </ul>
+        </li>
+
+        <!-- Forms Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Forms">
+            <i class="ph-duotone ph-textbox"></i>
+            <span>Forms</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="forms-elements.html">Form Elements</a></li>
+            <li><a class="nav-link " href="forms-layouts.html">Form Layouts</a></li>
+            <li><a class="nav-link " href="forms-validation.html">Validation</a></li>
+            <li><a class="nav-link " href="forms-wizard.html">Wizard</a></li>
+            <li><a class="nav-link " href="forms-editors.html">Rich Editors</a></li>
+            <li><a class="nav-link " href="forms-pickers.html">Date/Time Pickers</a></li>
+            <li><a class="nav-link " href="forms-select.html">Advanced Select</a></li>
+            <li><a class="nav-link " href="forms-upload.html">File Upload</a></li>
+          </ul>
+        </li>
+
+        <!-- Tables Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Tables">
+            <i class="ph-duotone ph-table"></i>
+            <span>Tables</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="tables-basic.html">Basic Tables</a></li>
+            <li><a class="nav-link " href="tables-datatables.html">DataTables</a></li>
+            <li><a class="nav-link " href="tables-responsive.html">Responsive Tables</a></li>
+          </ul>
+        </li>
+
+        <!-- Charts Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Charts">
+            <i class="ph-duotone ph-chart-bar"></i>
+            <span>Charts</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="charts-apexcharts.html">ApexCharts</a></li>
+            <li><a class="nav-link " href="charts-chartjs.html">Chart.js</a></li>
+            <li><a class="nav-link " href="charts-echarts.html">ECharts</a></li>
+          </ul>
+        </li>
+
+        <!-- Icons Section -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Icons">
+            <i class="ph-duotone ph-diamond"></i>
+            <span>Icons</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="icons-bootstrap.html">Bootstrap Icons</a></li>
+            <li><a class="nav-link " href="icons-remixicon.html">Remix Icons</a></li>
+            <li><a class="nav-link " href="icons-fontawesome.html">Font Awesome</a></li>
+            <li><a class="nav-link " href="icons-phosphor.html">Phosphor Icons</a></li>
+            <li><a class="nav-link " href="icons-lucide.html">Lucide Icons</a></li>
+          </ul>
+        </li>
+
+        <!-- Pages Section -->
+        <li class="nav-heading"><span>Pages</span></li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="contact.html" data-tooltip="Contact">
+            <i class="ph-duotone ph-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </li>
+
+        <!-- Invoices -->
+        <li class="nav-item has-submenu open">
+          <a class="nav-link" href="#" aria-expanded="true" data-tooltip="Invoices">
+            <i class="ph-duotone ph-receipt"></i>
+            <span>Invoices</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu show">
+            <li><a class="nav-link active" href="invoice-list.html">Invoice List</a></li>
+            <li><a class="nav-link " href="invoice.html">Invoice View</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="pricing.html" data-tooltip="Pricing">
+            <i class="ph-duotone ph-tag"></i>
+            <span>Pricing</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="faq.html" data-tooltip="FAQ">
+            <i class="ph-duotone ph-question"></i>
+            <span>FAQ</span>
+          </a>
+        </li>
+
+        <!-- Error Pages -->
+        <li class="nav-item has-submenu ">
+          <a class="nav-link" href="#" aria-expanded="false" data-tooltip="Error Pages">
+            <i class="ph-duotone ph-warning"></i>
+            <span>Error Pages</span>
+            <i class="ph-duotone ph-caret-down nav-arrow"></i>
+          </a>
+          <ul class="nav-submenu ">
+            <li><a class="nav-link " href="error-404.html">404 Not Found</a></li>
+            <li><a class="nav-link " href="error-403.html">403 Forbidden</a></li>
+            <li><a class="nav-link " href="error-500.html">500 Server Error</a></li>
+            <li><a class="nav-link " href="error-maintenance.html">Maintenance</a></li>
+            <li><a class="nav-link " href="error-coming-soon.html">Coming Soon</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="timeline.html" data-tooltip="Timeline">
+            <i class="ph-duotone ph-clock-counter-clockwise"></i>
+            <span>Timeline</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="search-results.html" data-tooltip="Search Results">
+            <i class="ph-duotone ph-magnifying-glass"></i>
+            <span>Search Results</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="blank.html" data-tooltip="Blank Page">
+            <i class="ph-duotone ph-file"></i>
+            <span>Blank Page</span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+  </aside>
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="main-content">
+      <div class="pagetitle">
+        <h1>Invoices</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Invoices</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+      <section class="section">
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+          <div class="col-sm-6 col-xl-3 mb-3 mb-xl-0">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="avatar-icon bg-primary-light text-primary">
+                      <i class="bi bi-receipt"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <div class="text-muted small">Total Invoices</div>
+                    <div class="h4 mb-0">248</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3 mb-3 mb-xl-0">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="avatar-icon bg-success-light text-success">
+                      <i class="bi bi-check-circle"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <div class="text-muted small">Paid</div>
+                    <div class="h4 mb-0">$45,250</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3 mb-3 mb-sm-0">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="avatar-icon bg-warning-light text-warning">
+                      <i class="bi bi-clock"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <div class="text-muted small">Pending</div>
+                    <div class="h4 mb-0">$12,800</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="avatar-icon bg-danger-light text-danger">
+                      <i class="bi bi-exclamation-circle"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <div class="text-muted small">Overdue</div>
+                    <div class="h4 mb-0">$3,450</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Invoices Table -->
+        <div class="card">
+          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="d-flex align-items-center gap-3">
+              <h5 class="card-title mb-0">All Invoices</h5>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <div class="input-group" style="width: 250px;">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search invoices...">
+              </div>
+              <select class="form-select" style="width: auto;">
+                <option value="">All Status</option>
+                <option value="paid">Paid</option>
+                <option value="pending">Pending</option>
+                <option value="overdue">Overdue</option>
+                <option value="draft">Draft</option>
+              </select>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">
+                <i class="bi bi-plus-lg me-1"></i> Create Invoice
+              </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th style="width: 40px;">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="selectAll">
+                      </div>
+                    </th>
+                    <th>Invoice</th>
+                    <th>Client</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th style="width: 100px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                      </div>
+                    </td>
+                    <td>
+                      <a href="invoice.html" class="fw-semibold text-primary">#INV-2024-001</a>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="avatar-sm bg-primary-light text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                          AC
+                        </div>
+                        <span>Acme Corporation</span>
+                      </div>
+                    </td>
+                    <td class="fw-medium">$5,103.00</td>
+                    <td>Jan 15, 2024</td>
+                    <td>Feb 14, 2024</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link" data-bs-toggle="dropdown">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="invoice.html"><i class="bi bi-eye me-2"></i> View</a></li>
+                          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editInvoiceModal" data-invoice-id="INV-2024-001" data-client="Acme Corporation" data-amount="5103.00" data-status="paid"><i class="bi bi-pencil me-2"></i> Edit</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i> Download</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-send me-2"></i> Send</a></li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                      </div>
+                    </td>
+                    <td>
+                      <a href="invoice.html" class="fw-semibold text-primary">#INV-2024-002</a>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="avatar-sm bg-success-light text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                          TI
+                        </div>
+                        <span>Tech Industries</span>
+                      </div>
+                    </td>
+                    <td class="fw-medium">$2,750.00</td>
+                    <td>Jan 18, 2024</td>
+                    <td>Feb 17, 2024</td>
+                    <td><span class="badge bg-warning">Pending</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link" data-bs-toggle="dropdown">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="invoice.html"><i class="bi bi-eye me-2"></i> View</a></li>
+                          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editInvoiceModal" data-invoice-id="INV-2024-002" data-client="Tech Industries" data-amount="2750.00" data-status="pending"><i class="bi bi-pencil me-2"></i> Edit</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i> Download</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-send me-2"></i> Send</a></li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                      </div>
+                    </td>
+                    <td>
+                      <a href="invoice.html" class="fw-semibold text-primary">#INV-2024-003</a>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="avatar-sm bg-info-light text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                          GS
+                        </div>
+                        <span>Global Services</span>
+                      </div>
+                    </td>
+                    <td class="fw-medium">$8,420.00</td>
+                    <td>Jan 10, 2024</td>
+                    <td>Jan 25, 2024</td>
+                    <td><span class="badge bg-danger">Overdue</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link" data-bs-toggle="dropdown">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="invoice.html"><i class="bi bi-eye me-2"></i> View</a></li>
+                          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editInvoiceModal" data-invoice-id="INV-2024-003" data-client="Global Services" data-amount="8420.00" data-status="overdue"><i class="bi bi-pencil me-2"></i> Edit</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i> Download</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-send me-2"></i> Send Reminder</a></li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                      </div>
+                    </td>
+                    <td>
+                      <a href="invoice.html" class="fw-semibold text-primary">#INV-2024-004</a>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="avatar-sm bg-warning-light text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                          SM
+                        </div>
+                        <span>StartUp Media</span>
+                      </div>
+                    </td>
+                    <td class="fw-medium">$1,200.00</td>
+                    <td>Jan 20, 2024</td>
+                    <td>Feb 19, 2024</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link" data-bs-toggle="dropdown">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="invoice.html"><i class="bi bi-eye me-2"></i> View</a></li>
+                          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editInvoiceModal" data-invoice-id="INV-2024-004" data-client="StartUp Media" data-amount="1200.00" data-status="paid"><i class="bi bi-pencil me-2"></i> Edit</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i> Download</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-send me-2"></i> Send</a></li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                      </div>
+                    </td>
+                    <td>
+                      <a href="invoice.html" class="fw-semibold text-primary">#INV-2024-005</a>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="avatar-sm bg-danger-light text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                          DC
+                        </div>
+                        <span>Design Co.</span>
+                      </div>
+                    </td>
+                    <td class="fw-medium">$3,850.00</td>
+                    <td>Jan 22, 2024</td>
+                    <td>Feb 21, 2024</td>
+                    <td><span class="badge bg-secondary">Draft</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link" data-bs-toggle="dropdown">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="invoice.html"><i class="bi bi-eye me-2"></i> View</a></li>
+                          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editInvoiceModal" data-invoice-id="INV-2024-005" data-client="Design Co." data-amount="3850.00" data-status="draft"><i class="bi bi-pencil me-2"></i> Edit</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-send me-2"></i> Finalize & Send</a></li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                      </div>
+                    </td>
+                    <td>
+                      <a href="invoice.html" class="fw-semibold text-primary">#INV-2024-006</a>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="avatar-sm bg-primary-light text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                          BT
+                        </div>
+                        <span>Blue Tech</span>
+                      </div>
+                    </td>
+                    <td class="fw-medium">$6,500.00</td>
+                    <td>Jan 25, 2024</td>
+                    <td>Feb 24, 2024</td>
+                    <td><span class="badge bg-warning">Pending</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link" data-bs-toggle="dropdown">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="invoice.html"><i class="bi bi-eye me-2"></i> View</a></li>
+                          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editInvoiceModal" data-invoice-id="INV-2024-006" data-client="Blue Tech" data-amount="6500.00" data-status="pending"><i class="bi bi-pencil me-2"></i> Edit</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i> Download</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-send me-2"></i> Send</a></li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                      </div>
+                    </td>
+                    <td>
+                      <a href="invoice.html" class="fw-semibold text-primary">#INV-2024-007</a>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="avatar-sm bg-success-light text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                          EP
+                        </div>
+                        <span>Echo Partners</span>
+                      </div>
+                    </td>
+                    <td class="fw-medium">$4,200.00</td>
+                    <td>Jan 28, 2024</td>
+                    <td>Feb 27, 2024</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-link" data-bs-toggle="dropdown">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="invoice.html"><i class="bi bi-eye me-2"></i> View</a></li>
+                          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editInvoiceModal" data-invoice-id="INV-2024-007" data-client="Echo Partners" data-amount="4200.00" data-status="paid"><i class="bi bi-pencil me-2"></i> Edit</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i> Download</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-send me-2"></i> Send</a></li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 border-top">
+              <div class="text-muted small">
+                Showing 1 to 7 of 248 invoices
+              </div>
+              <nav>
+                <ul class="pagination pagination-sm mb-0">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
+                  </li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">...</a></li>
+                  <li class="page-item"><a class="page-link" href="#">36</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Create Invoice Modal -->
+      <div class="modal fade" id="createInvoiceModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Create New Invoice</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Client <span class="text-danger">*</span></label>
+                    <select class="form-select">
+                      <option value="">Select client...</option>
+                      <option value="1">Acme Corporation</option>
+                      <option value="2">Tech Industries</option>
+                      <option value="3">Global Services</option>
+                      <option value="4">StartUp Media</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Invoice Number</label>
+                    <input type="text" class="form-control" value="#INV-2024-008" readonly>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Invoice Date <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Due Date <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control">
+                  </div>
+                </div>
+
+                <h6 class="mt-3 mb-3">Invoice Items</h6>
+                <div class="table-responsive">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th>Description</th>
+                        <th style="width: 80px;">Qty</th>
+                        <th style="width: 120px;">Price</th>
+                        <th style="width: 120px;">Amount</th>
+                        <th style="width: 50px;"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="text" class="form-control form-control-sm" placeholder="Item description"></td>
+                        <td><input type="number" class="form-control form-control-sm" value="1"></td>
+                        <td><input type="text" class="form-control form-control-sm" placeholder="0.00"></td>
+                        <td class="text-end align-middle">$0.00</td>
+                        <td><button type="button" class="btn btn-sm btn-link text-danger"><i class="bi bi-trash"></i></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm">
+                  <i class="bi bi-plus-lg me-1"></i> Add Item
+                </button>
+
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-control" rows="3" placeholder="Additional notes for the client..."></textarea>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="bg-light p-3 rounded">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal</span>
+                        <span>$0.00</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>Tax (8%)</span>
+                        <span>$0.00</span>
+                      </div>
+                      <hr>
+                      <div class="d-flex justify-content-between fw-bold">
+                        <span>Total</span>
+                        <span>$0.00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-outline-primary">Save as Draft</button>
+              <button type="button" class="btn btn-primary">Create & Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Invoice Modal -->
+      <div class="modal fade" id="editInvoiceModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Invoice <span class="text-muted" id="editInvoiceNumber">#INV-2024-001</span></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Client <span class="text-danger">*</span></label>
+                    <select class="form-select" id="editInvoiceClient">
+                      <option value="">Select client...</option>
+                      <option value="Acme Corporation">Acme Corporation</option>
+                      <option value="Tech Industries">Tech Industries</option>
+                      <option value="Global Services">Global Services</option>
+                      <option value="StartUp Media">StartUp Media</option>
+                      <option value="Design Co.">Design Co.</option>
+                      <option value="Blue Tech">Blue Tech</option>
+                      <option value="Echo Partners">Echo Partners</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="editInvoiceStatus">
+                      <option value="draft">Draft</option>
+                      <option value="pending">Pending</option>
+                      <option value="paid">Paid</option>
+                      <option value="overdue">Overdue</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Invoice Date <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="editInvoiceDate" value="2024-01-15">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Due Date <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="editDueDate" value="2024-02-14">
+                  </div>
+                </div>
+
+                <h6 class="mt-3 mb-3">Invoice Items</h6>
+                <div class="table-responsive">
+                  <table class="table table-sm" id="editInvoiceItems">
+                    <thead>
+                      <tr>
+                        <th>Description</th>
+                        <th style="width: 80px;">Qty</th>
+                        <th style="width: 120px;">Price</th>
+                        <th style="width: 120px;">Amount</th>
+                        <th style="width: 50px;"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="text" class="form-control form-control-sm" value="Website Design & Development"></td>
+                        <td><input type="number" class="form-control form-control-sm" value="1"></td>
+                        <td><input type="text" class="form-control form-control-sm" value="3,500.00"></td>
+                        <td class="text-end align-middle">$3,500.00</td>
+                        <td><button type="button" class="btn btn-sm btn-link text-danger"><i class="bi bi-trash"></i></button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" class="form-control form-control-sm" value="Logo Design"></td>
+                        <td><input type="number" class="form-control form-control-sm" value="1"></td>
+                        <td><input type="text" class="form-control form-control-sm" value="800.00"></td>
+                        <td class="text-end align-middle">$800.00</td>
+                        <td><button type="button" class="btn btn-sm btn-link text-danger"><i class="bi bi-trash"></i></button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" class="form-control form-control-sm" value="SEO Optimization"></td>
+                        <td><input type="number" class="form-control form-control-sm" value="1"></td>
+                        <td><input type="text" class="form-control form-control-sm" value="500.00"></td>
+                        <td class="text-end align-middle">$500.00</td>
+                        <td><button type="button" class="btn btn-sm btn-link text-danger"><i class="bi bi-trash"></i></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm">
+                  <i class="bi bi-plus-lg me-1"></i> Add Item
+                </button>
+
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-control" rows="3" id="editInvoiceNotes">Thank you for your business!</textarea>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="bg-light p-3 rounded">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal</span>
+                        <span id="editSubtotal">$4,800.00</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>Discount</span>
+                        <div class="d-flex align-items-center gap-2">
+                          <input type="number" class="form-control form-control-sm" style="width: 60px;" value="10">
+                          <span>%</span>
+                          <span class="text-danger" id="editDiscount">-$480.00</span>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>Tax</span>
+                        <div class="d-flex align-items-center gap-2">
+                          <input type="number" class="form-control form-control-sm" style="width: 60px;" value="8">
+                          <span>%</span>
+                          <span id="editTax">$345.60</span>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="d-flex justify-content-between fw-bold">
+                        <span>Total</span>
+                        <span id="editTotal">$4,665.60</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-danger">
+                <i class="bi bi-trash me-1"></i> Delete Invoice
+              </button>
+              <div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer-copyright">
+          &copy; 2026 <a href="#">EasyAdmin</a>. All Rights Reserved.
+        </div>
+        <div class="footer-credits">
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Back to Top -->
+  <a href="#" class="back-to-top">
+    <i class="bi bi-arrow-up"></i>
+  </a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/choices.js/choices.min.js"></script>
+  <script src="assets/vendor/flatpickr/flatpickr.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS Files -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- App Sidebar Toggle (for app pages with sidebars) -->
+  <script src="assets/js/apps-sidebar-toggle.js"></script>
+
+</body>
+
+</html>

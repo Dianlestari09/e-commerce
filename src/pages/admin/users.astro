@@ -1,0 +1,500 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Users & Admins Management - EasyAdmin">
+  <div class="page-header d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="page-title h3 mb-1 font-weight-bold">Users & Admins Management</h1>
+      <p class="text-muted mb-0">View user accounts and register new administrators securely.</p>
+    </div>
+    <div>
+      <button class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <i class="bi bi-person-plus-fill"></i>
+        <span>Add New Admin</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm p-4 bg-white">
+    <div id="alert-container"></div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0" id="users-table">
+        <thead class="table-light">
+          <tr>
+            <th>Full Name</th>
+            <th>Email / ID</th>
+            <th>Phone</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Shipping Address</th>
+            <th>Joined Date</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="users-table-body">
+          <tr>
+            <td colspan="8" class="text-center py-4">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Loading accounts...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold text-dark" id="addUserModalLabel">Create Admin Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body pt-3">
+          <div id="modal-alert-container"></div>
+          
+          <form id="add-user-form">
+            <div class="mb-3">
+              <label for="modal-fullName" class="form-label fw-semibold">Full Name</label>
+              <input type="text" class="form-control" id="modal-fullName" required placeholder="Jane Doe">
+            </div>
+
+            <div class="mb-3">
+              <label for="modal-email" class="form-label fw-semibold">Email Address</label>
+              <input type="email" class="form-control" id="modal-email" required placeholder="admin.name@example.com">
+            </div>
+
+            <div class="mb-3">
+              <label for="modal-password" class="form-label fw-semibold">Password</label>
+              <input type="password" class="form-control" id="modal-password" required placeholder="••••••••" minlength="6">
+              <div class="form-text">Minimum length is 6 characters.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="modal-phone" class="form-label fw-semibold">Phone Number</label>
+              <input type="tel" class="form-control" id="modal-phone" placeholder="08123456789">
+            </div>
+
+            <div class="mb-3">
+              <label for="modal-address" class="form-label fw-semibold">Address / Notes</label>
+              <textarea class="form-control" id="modal-address" rows="2" placeholder="Office location or address details"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary d-flex align-items-center gap-2" id="modal-submit-btn">
+                <span id="modal-btn-text">Create Admin</span>
+                <span id="modal-btn-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold text-dark" id="editUserModalLabel">Edit User Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body pt-3">
+          <div id="edit-modal-alert-container"></div>
+          
+          <form id="edit-user-form">
+            <input type="hidden" id="edit-id">
+
+            <div class="mb-3">
+              <label for="edit-fullName" class="form-label fw-semibold">Full Name</label>
+              <input type="text" class="form-control" id="edit-fullName" required placeholder="Jane Doe">
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-email" class="form-label fw-semibold text-muted">Email Address (Cannot change)</label>
+              <input type="email" class="form-control bg-light" id="edit-email" readonly disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-password" class="form-label fw-semibold">Reset Password</label>
+              <input type="password" class="form-control" id="edit-password" placeholder="••••••••" minlength="6">
+              <div class="form-text">Leave blank to keep current password. Minimum 6 characters.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-phone" class="form-label fw-semibold">Phone Number</label>
+              <input type="tel" class="form-control" id="edit-phone" placeholder="08123456789">
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-role" class="form-label fw-semibold">Account Role</label>
+              <select class="form-select" id="edit-role" required>
+                <option value="customer">Customer</option>
+                <option value="admin">Admin / Reseller</option>
+                <option value="super_admin">Super Admin</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-address" class="form-label fw-semibold">Address / Notes</label>
+              <textarea class="form-control" id="edit-address" rows="2" placeholder="Office location or address details"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary d-flex align-items-center gap-2" id="edit-modal-submit-btn">
+                <span id="edit-modal-btn-text">Save Changes</span>
+                <span id="edit-modal-btn-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  const tableBody = document.getElementById('users-table-body');
+  const alertContainer = document.getElementById('alert-container');
+  const addUserForm = document.getElementById('add-user-form') as HTMLFormElement;
+  const modalSubmitBtn = document.getElementById('modal-submit-btn') as HTMLButtonElement;
+  const modalBtnText = document.getElementById('modal-btn-text');
+  const modalBtnSpinner = document.getElementById('modal-btn-spinner');
+  const modalAlertContainer = document.getElementById('modal-alert-container');
+
+  // Edit form elements
+  const editUserForm = document.getElementById('edit-user-form') as HTMLFormElement;
+  const editModalSubmitBtn = document.getElementById('edit-modal-submit-btn') as HTMLButtonElement;
+  const editModalBtnText = document.getElementById('edit-modal-btn-text');
+  const editModalBtnSpinner = document.getElementById('edit-modal-btn-spinner');
+  const editModalAlertContainer = document.getElementById('edit-modal-alert-container');
+
+  function showAlert(container: HTMLElement | null, message: string, type: 'danger' | 'success') {
+    if (!container) return;
+    container.innerHTML = `
+      <div class="alert alert-${type} alert-dismissible fade show border-0 rounded-3" role="alert">
+        <i class="bi ${type === 'danger' ? 'bi-exclamation-triangle-fill' : 'bi-check-circle-fill'} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    `;
+  }
+
+  async function checkSuperAdmin() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session || !session.user) {
+      window.location.href = '/admin/login';
+      return;
+    }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', session.user.id)
+      .single();
+
+    if (profile?.role !== 'super_admin') {
+      alert('Access Denied: Only the Super Admin can access the user management page.');
+      window.location.href = '/admin';
+      return;
+    }
+
+    loadUsers();
+  }
+
+  async function loadUsers() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const res = await fetch('/api/admin/users', {
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        }
+      });
+
+      const result = await res.json();
+      if (!res.ok || !result.success) {
+        showAlert(alertContainer, result.error || 'Failed to load user accounts', 'danger');
+        if (tableBody) {
+          tableBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger py-4">Error: ${result.error || 'Unauthorized'}</td></tr>`;
+        }
+        return;
+      }
+
+      const profiles = result.data;
+      if (tableBody) {
+        if (profiles.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="8" class="text-center py-4 text-muted">No accounts registered yet.</td></tr>';
+        } else {
+          tableBody.innerHTML = profiles.map((p: any) => `
+            <tr>
+              <td>
+                <div class="fw-bold text-dark">${p.full_name || 'N/A'}</div>
+              </td>
+              <td>
+                <div class="text-muted small">${p.email || 'No email'}</div>
+                <div class="font-monospace text-muted small" style="font-size: 0.7rem;">ID: ${p.id}</div>
+              </td>
+              <td>${p.phone || '<span class="text-muted">-</span>'}</td>
+              <td>
+                <code class="text-muted" style="font-size: 0.85rem;">••••••••</code>
+              </td>
+              <td>
+                <span class="badge rounded-pill fw-semibold py-1.5 px-3 ${
+                  p.role === 'super_admin' ? 'bg-success-light text-success' :
+                  p.role === 'admin' ? 'bg-danger-light text-danger' : 'bg-primary-light text-primary'
+                }">
+                  ${p.role.toUpperCase()}
+                </span>
+              </td>
+              <td>
+                <div class="text-muted text-truncate small" style="max-width: 150px;" title="${p.shipping_address || ''}">
+                  ${p.shipping_address || '<span class="text-muted">-</span>'}
+                </div>
+              </td>
+              <td class="small text-muted">${new Date(p.created_at).toLocaleDateString()}</td>
+              <td class="text-end">
+                <div class="d-flex justify-content-end gap-2">
+                  <button class="btn btn-sm btn-outline-primary edit-user-btn" 
+                          data-id="${p.id}" 
+                          data-name="${p.full_name}" 
+                          data-email="${p.email}" 
+                          data-phone="${p.phone}" 
+                          data-role="${p.role}" 
+                          data-address="${p.shipping_address || ''}" 
+                          title="Edit Account">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger delete-user-btn" 
+                          data-id="${p.id}" 
+                          data-name="${p.full_name}" 
+                          title="Delete Account">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `).join('');
+
+          // Bind edit buttons
+          document.querySelectorAll('.edit-user-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              const el = e.currentTarget as HTMLButtonElement;
+              const id = el.getAttribute('data-id') || '';
+              const name = el.getAttribute('data-name') || '';
+              const email = el.getAttribute('data-email') || '';
+              const phone = el.getAttribute('data-phone') || '';
+              const role = el.getAttribute('data-role') || 'customer';
+              const address = el.getAttribute('data-address') || '';
+
+              (document.getElementById('edit-id') as HTMLInputElement).value = id;
+              (document.getElementById('edit-fullName') as HTMLInputElement).value = name;
+              (document.getElementById('edit-email') as HTMLInputElement).value = email;
+              (document.getElementById('edit-phone') as HTMLInputElement).value = phone;
+              (document.getElementById('edit-role') as HTMLSelectElement).value = role;
+              (document.getElementById('edit-address') as HTMLTextAreaElement).value = address;
+              (document.getElementById('edit-password') as HTMLInputElement).value = '';
+
+              // Show modal using Bootstrap API
+              const bootstrap = (window as any).bootstrap;
+              const editModal = new bootstrap.Modal(document.getElementById('editUserModal'));
+              editModal.show();
+            });
+          });
+
+          // Bind delete buttons
+          document.querySelectorAll('.delete-user-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+              const el = e.currentTarget as HTMLButtonElement;
+              const id = el.getAttribute('data-id') || '';
+              const name = el.getAttribute('data-name') || '';
+
+              if (confirm(`Are you sure you want to delete the account for ${name}? This action cannot be undone.`)) {
+                await deleteUser(id, name);
+              }
+            });
+          });
+        }
+      }
+    } catch (err: any) {
+      console.error(err);
+      showAlert(alertContainer, 'An error occurred while fetching user list.', 'danger');
+    }
+  }
+
+  // Delete User handler
+  async function deleteUser(id: string, fullName: string) {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const res = await fetch('/api/admin/users', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ id })
+      });
+
+      const result = await res.json();
+      if (!res.ok || !result.success) {
+        showAlert(alertContainer, result.error || 'Failed to delete account', 'danger');
+        return;
+      }
+
+      showAlert(alertContainer, `User account for <strong>${fullName}</strong> has been deleted.`, 'success');
+      loadUsers();
+    } catch (err) {
+      console.error(err);
+      showAlert(alertContainer, 'An error occurred during account deletion.', 'danger');
+    }
+  }
+
+  // Handle new admin registration
+  addUserForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (modalSubmitBtn) modalSubmitBtn.disabled = true;
+    modalBtnText?.classList.add('d-none');
+    modalBtnSpinner?.classList.remove('d-none');
+    if (modalAlertContainer) modalAlertContainer.innerHTML = '';
+
+    const fullName = (document.getElementById('modal-fullName') as HTMLInputElement).value.trim();
+    const email = (document.getElementById('modal-email') as HTMLInputElement).value.trim();
+    const password = (document.getElementById('modal-password') as HTMLInputElement).value;
+    const phone = (document.getElementById('modal-phone') as HTMLInputElement).value.trim();
+    const address = (document.getElementById('modal-address') as HTMLTextAreaElement).value.trim();
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("No active session");
+
+      const res = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          full_name: fullName,
+          phone,
+          shipping_address: address,
+          role: 'admin' // Force role to admin by default for new creations
+        })
+      });
+
+      const result = await res.json();
+      if (!res.ok || !result.success) {
+        showAlert(modalAlertContainer, result.error || 'Failed to create admin user', 'danger');
+        return;
+      }
+
+      showAlert(alertContainer, `Admin account for <strong>${fullName}</strong> created successfully!`, 'success');
+      addUserForm.reset();
+      
+      // Close Modal
+      const modalEl = document.getElementById('addUserModal');
+      const bootstrap = (window as any).bootstrap;
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      modal?.hide();
+
+      loadUsers();
+    } catch (err: any) {
+      console.error(err);
+      showAlert(modalAlertContainer, 'An error occurred while creating the account.', 'danger');
+    } finally {
+      if (modalSubmitBtn) modalSubmitBtn.disabled = false;
+      modalBtnText?.classList.remove('d-none');
+      modalBtnSpinner?.classList.add('d-none');
+    }
+  });
+
+  // Handle Edit user account
+  editUserForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (editModalSubmitBtn) editModalSubmitBtn.disabled = true;
+    editModalBtnText?.classList.add('d-none');
+    editModalBtnSpinner?.classList.remove('d-none');
+    if (editModalAlertContainer) editModalAlertContainer.innerHTML = '';
+
+    const id = (document.getElementById('edit-id') as HTMLInputElement).value;
+    const fullName = (document.getElementById('edit-fullName') as HTMLInputElement).value.trim();
+    const password = (document.getElementById('edit-password') as HTMLInputElement).value;
+    const phone = (document.getElementById('edit-phone') as HTMLInputElement).value.trim();
+    const role = (document.getElementById('edit-role') as HTMLSelectElement).value;
+    const address = (document.getElementById('edit-address') as HTMLTextAreaElement).value.trim();
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("No active session");
+
+      const res = await fetch('/api/admin/users', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          id,
+          password: password || undefined, // Send password only if updated
+          full_name: fullName,
+          phone,
+          role,
+          shipping_address: address
+        })
+      });
+
+      const result = await res.json();
+      if (!res.ok || !result.success) {
+        showAlert(editModalAlertContainer, result.error || 'Failed to update account', 'danger');
+        return;
+      }
+
+      showAlert(alertContainer, `User account for <strong>${fullName}</strong> updated successfully!`, 'success');
+      
+      // Close Modal
+      const modalEl = document.getElementById('editUserModal');
+      const bootstrap = (window as any).bootstrap;
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      modal?.hide();
+
+      loadUsers();
+    } catch (err: any) {
+      console.error(err);
+      showAlert(editModalAlertContainer, 'An error occurred while updating the account.', 'danger');
+    } finally {
+      if (editModalSubmitBtn) editModalSubmitBtn.disabled = false;
+      editModalBtnText?.classList.remove('d-none');
+      editModalBtnSpinner?.classList.add('d-none');
+    }
+  });
+
+  // Load on init
+  checkSuperAdmin();
+</script>
+
+<style>
+  /* Styling helper classes for badge light backgrounds */
+  .bg-danger-light {
+    background-color: #fce8e6 !important;
+  }
+  .bg-success-light {
+    background-color: #e6f4ea !important;
+  }
+  .bg-primary-light {
+    background-color: #e8f0fe !important;
+  }
+</style>
