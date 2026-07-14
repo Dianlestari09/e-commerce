@@ -1,0 +1,157 @@
+import { t as __exportAll } from "./rolldown-runtime_D7D4PA-g.mjs";
+import { T as createComponent, a as renderComponent, f as renderTemplate, g as maybeRenderHead } from "./server_Dt_BWqqO.mjs";
+import "./compiler_kmuGzyek.mjs";
+import { t as $$ShopLayout } from "./ShopLayout_BYcwvopJ.mjs";
+//#region src/pages/track-order.astro
+var track_order_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$TrackOrder,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$TrackOrder = createComponent(($$result, $$props, $$slots) => {
+	return renderTemplate`${renderComponent($$result, "ShopLayout", $$ShopLayout, { "title": "Track Order & Order History - ShopWise" }, { "default": async ($$result) => renderTemplate`${maybeRenderHead($$result)}<main class="main"><!-- Page Title --><div class="page-title light-background"><div class="container d-lg-flex justify-content-between align-items-center"><h1 class="mb-2 mb-lg-0">Track Order & History</h1><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li class="current">Track Order</li></ol></nav></div></div><!-- Main Content Section --><section class="section py-5"><div class="container"><div class="row g-5"><!-- Column Left: Track guest order --><div class="col-lg-5"><div class="card border-0 shadow-sm p-4 bg-light rounded-4 h-100"><h4 class="fw-bold mb-3 text-dark"><i class="bi bi-search me-2 text-primary"></i>Track Guest Order</h4><p class="text-muted small mb-4">Enter your 36-character Order ID (UUID) found in your confirmation receipt to track its delivery progress.</p><form id="track-form" class="needs-validation" novalidate><div class="mb-3"><label for="order-id-input" class="form-label fw-semibold text-dark">Order ID / Transaction Code</label><input type="text" id="order-id-input" class="form-control rounded-3 py-2.5 font-monospace" placeholder="e.g. 123e4567-e89b-12d3-a456-426614174000" required pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"><div class="invalid-feedback">Please enter a valid 36-character Order ID (UUID format).</div></div><button type="submit" class="btn btn-primary w-100 py-2.5 fw-bold shadow-sm rounded-3"><i class="bi bi-geo-alt-fill me-1"></i> Track Now</button></form></div></div><!-- Column Right: Authenticated User History --><div class="col-lg-7"><div class="card border-0 shadow-sm p-4 bg-white rounded-4 h-100"><h4 class="fw-bold mb-3 text-dark"><i class="bi bi-clock-history me-2 text-primary"></i>Your Order History</h4><!-- Logged In Content --><div id="history-logged-in" class="d-none"><p class="text-muted small mb-4">Here is the order history and shipping progress associated with your account.</p><div class="table-responsive"><table class="table table-hover align-middle"><thead class="table-light"><tr style="font-size: 0.85rem;"><th>Order ID</th><th>Products</th><th>Date</th><th>Amount</th><th>Status</th><th class="text-center">Action</th></tr></thead><tbody id="orders-list-body"><!-- Rendered by JS --></tbody></table></div></div><!-- Unauthenticated State --><div id="history-logged-out" class="text-center py-5"><i class="bi bi-shield-lock-fill text-muted mb-3" style="font-size: 3rem;"></i><h5 class="fw-bold text-dark mt-2">Log in to view your Order History</h5><p class="text-muted small max-width-350 mx-auto mb-4">You can easily track all past purchases, download invoices, and monitor package shipping transit in real time.</p><a href="/login?redirect=/track-order" class="btn btn-outline-primary px-4 py-2 fw-semibold rounded-pill">Sign In to Account</a></div></div></div></div></div></section></main><script>
+    // Handle Guest Track Form Submit
+    const trackForm = document.getElementById('track-form');
+    if (trackForm) {
+      trackForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const input = document.getElementById('order-id-input');
+        const orderId = input.value.trim();
+        
+        // Simple regex UUID validation
+        const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+        if (!uuidRegex.test(orderId)) {
+          input.classList.add('is-invalid');
+          return;
+        }
+        
+        input.classList.remove('is-invalid');
+        window.location.href = \`/order-confirmation?id=\${orderId}\`;
+      });
+    }
+
+    // Load active session order history
+    async function loadOrderHistory() {
+      const globalSupabase = window['supabase'];
+      if (!globalSupabase) return;
+
+      const loggedInContainer = document.getElementById('history-logged-in');
+      const loggedOutContainer = document.getElementById('history-logged-out');
+      const ordersListBody = document.getElementById('orders-list-body');
+
+      // Get current auth session
+      const { data: { session } } = await globalSupabase.auth.getSession();
+
+      if (!session || !session.user) {
+        loggedInContainer.classList.add('d-none');
+        loggedOutContainer.classList.remove('d-none');
+        return;
+      }
+
+      loggedOutContainer.classList.add('d-none');
+      loggedInContainer.classList.remove('d-none');
+
+      ordersListBody.innerHTML = \`
+        <tr>
+          <td colspan="6" class="text-center py-4">
+            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+            <span class="ms-2 text-muted small">Loading order list...</span>
+          </td>
+        </tr>
+      \`;
+
+      try {
+        // Query user's orders with products details
+        const { data: orders, error } = await globalSupabase
+          .from('orders')
+          .select(\`
+            id,
+            total_amount,
+            status,
+            created_at,
+            order_items (
+              quantity,
+              products (
+                name,
+                images
+              )
+            )
+          \`)
+          .eq('customer_id', session.user.id)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!orders || orders.length === 0) {
+          ordersListBody.innerHTML = \`
+            <tr>
+              <td colspan="6" class="text-center py-5 text-muted small">
+                <i class="bi bi-journal-x d-block mb-2 fs-3 text-secondary"></i>
+                You haven't placed any orders yet.
+              </td>
+            </tr>
+          \`;
+          return;
+        }
+
+        ordersListBody.innerHTML = orders.map(o => {
+          const dateStr = new Date(o.created_at).toLocaleDateString();
+          let statusBadgeClass = 'bg-secondary';
+          if (o.status === 'completed') statusBadgeClass = 'bg-success';
+          else if (o.status === 'shipped') statusBadgeClass = 'bg-info';
+          else if (o.status === 'processing') statusBadgeClass = 'bg-warning text-dark';
+
+          // Format items HTML
+          const itemsHtml = (o.order_items || []).map(item => {
+            const prod = item.products || {};
+            const imgUrl = (prod.images && prod.images[0]) || '/shop/assets/img/product/product-default.webp';
+            const name = prod.name || 'Unknown Product';
+            return \`
+              <div class="d-flex align-items-center gap-2 mb-1.5" style="max-width: 250px;">
+                <img src="\${imgUrl}" alt="\${name}" class="rounded border" style="width: 32px; height: 32px; object-fit: cover; flex-shrink: 0;">
+                <span class="text-truncate small text-dark fw-semibold" title="\${name}" style="font-size: 0.8rem;">
+                  \${name} <span class="text-muted small fw-normal">x\${item.quantity}</span>
+                </span>
+              </div>
+            \`;
+          }).join('');
+
+          return \`
+            <tr style="font-size: 0.85rem;">
+              <td class="font-monospace text-muted" style="font-size: 0.75rem;">\${o.id.substring(0, 8)}...</td>
+              <td><div class="d-flex flex-column gap-1">\${itemsHtml}</div></td>
+              <td>\${dateStr}</td>
+              <td class="fw-bold text-dark">$\${Number(o.total_amount).toFixed(2)}</td>
+              <td><span class="badge \${statusBadgeClass} text-uppercase" style="font-size: 0.7rem;">\${o.status}</span></td>
+              <td class="text-center">
+                <a href="/order-confirmation?id=\${o.id}" class="btn btn-outline-primary btn-sm px-2.5 py-1 rounded-pill" style="font-size: 0.75rem;">
+                  Track <i class="bi bi-arrow-right-short ms-0.5"></i>
+                </a>
+              </td>
+            </tr>
+          \`;
+        }).join('');
+
+      } catch (err) {
+        console.error("Error loading order list:", err);
+        ordersListBody.innerHTML = \`
+          <tr>
+            <td colspan="6" class="text-center text-danger py-4 small">
+              <i class="bi bi-exclamation-triangle me-1"></i> Failed to retrieve order history.
+            </td>
+          </tr>
+        \`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadOrderHistory);
+  <\/script>` })}
+export const prerender = false;`;
+}, "D:/Kuliah/Magang/e-commerce/src/pages/track-order.astro", void 0);
+var $$file = "D:/Kuliah/Magang/e-commerce/src/pages/track-order.astro";
+var $$url = "/track-order";
+//#endregion
+//#region \0virtual:astro:page:src/pages/track-order@_@astro
+var page = () => track_order_exports;
+//#endregion
+export { page };

@@ -1,0 +1,180 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "^/_astro/(.*)$",
+			"headers": {
+				"cache-control": "public, max-age=31536000, immutable"
+			},
+			"continue": true
+		},
+		{
+			"src": "^/_server-islands/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/_image/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/about/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/addresses/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/articles/edit/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/articles/new/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/articles/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/categories/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/login/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/orders/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/products/edit/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/products/new/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/products/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/settings/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/users/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/articles/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/categories/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/orders/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/products/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/settings/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/shipping-rates/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/users/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/checkout/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/customer/addresses/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/payment-confirm/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/shipping-rates/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/articles/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/articles/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/cart/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/category/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/checkout/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/login/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/order-confirmation/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/product/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/register/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/search/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/track-order/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/404/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/.*$",
+			"dest": "_render",
+			"status": 404
+		}
+	]
+}

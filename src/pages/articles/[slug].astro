@@ -1,0 +1,486 @@
+---
+import ShopLayout from '../../layouts/ShopLayout.astro';
+import { supabase } from '../../lib/supabase';
+
+// Disable prerendering for dynamic server-side fetching
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+let article: any = null;
+let relatedArticles: any[] = [];
+let inlinkedArticles: any[] = [];
+let sidebarArticles: any[] = [];
+
+try {
+  // Fetch the article details
+  const { data: artData } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+
+  if (artData) {
+    article = artData;
+
+    // Fetch inlink/baca juga articles
+    if (article.related_article_ids && article.related_article_ids.length > 0) {
+      const { data: inData } = await supabase
+        .from('articles')
+        .select('id, title, slug')
+        .in('id', article.related_article_ids)
+        .eq('status', 'published');
+      if (inData) {
+        inlinkedArticles = inData;
+      }
+    }
+
+    // Fetch related articles from same category, excluding current (max 3 at bottom)
+    const { data: relData } = await supabase
+      .from('articles')
+      .select('id, title, slug, excerpt, cover_image, category, published_at')
+      .eq('status', 'published')
+      .eq('category', article.category)
+      .neq('id', article.id)
+      .limit(3);
+
+    if (relData) {
+      relatedArticles = relData;
+    }
+
+    // Fetch sidebar articles (5 latest published articles, excluding current)
+    const { data: sideData } = await supabase
+      .from('articles')
+      .select('id, title, slug, cover_image, category, published_at')
+      .eq('status', 'published')
+      .neq('id', article.id)
+      .order('published_at', { ascending: false })
+      .limit(5);
+
+    if (sideData) {
+      sidebarArticles = sideData;
+    }
+  }
+} catch (e) {
+  console.error(`Failed to load article details for slug ${slug}:`, e);
+}
+
+// Redirect to 404 if article not found
+if (!article || article.status !== 'published') {
+  return Astro.redirect('/404');
+}
+
+function formatDate(dateStr: string | null) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString('id-ID', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+}
+
+function readingTime(text: string | null) {
+  if (!text) return '1 min';
+  const words = text.replace(/<[^>]+>/g, '').split(/\s+/).length;
+  const mins = Math.max(1, Math.ceil(words / 200));
+  return `${mins} min read`;
+}
+
+// Dynamic SEO setup
+const metaTitle = article.meta_title || `${article.title} - ShopWise`;
+const metaDesc = article.meta_description || article.excerpt || '';
+const canonicalUrl = `${Astro.url.origin}/articles/${article.slug}`;
+const shareImage = article.cover_image || `${Astro.url.origin}/shop/assets/img/product/product-default.webp`;
+
+// Build fallback BlogPosting JSON-LD if custom schema_code is empty
+let jsonLdSchema = '';
+if (article.schema_code && article.schema_code.trim()) {
+  jsonLdSchema = article.schema_code;
+} else {
+  const defaultSchemaObj = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": article.title,
+    "description": article.excerpt,
+    "image": shareImage,
+    "datePublished": article.published_at || article.created_at,
+    "dateModified": article.updated_at || article.published_at || article.created_at,
+    "author": {
+      "@type": "Person",
+      "name": article.author_name || "Dian Lestari Kurniawati"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ShopWise",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${Astro.url.origin}/shop/assets/img/favicon.png`
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalUrl
+    }
+  };
+  jsonLdSchema = JSON.stringify(defaultSchemaObj);
+}
+
+const categoryLabels: Record<string, string> = {
+  tips: 'Tips & Tricks',
+  review: 'Product Review',
+  news: 'News',
+  inspirasi: 'Inspirasi',
+  promo: 'Promo & Deals',
+  tutorial: 'Tutorial'
+};
+---
+
+<ShopLayout title={metaTitle} description={metaDesc}>
+  <!-- SEO Extras injected in head via slot -->
+  <Fragment slot="head">
+    <link rel="canonical" href={canonicalUrl}>
+    <meta property="og:type" content="article">
+    <meta property="og:title" content={metaTitle}>
+    <meta property="og:description" content={metaDesc}>
+    <meta property="og:url" content={canonicalUrl}>
+    <meta property="og:image" content={shareImage}>
+    <meta property="article:published_time" content={article.published_at || article.created_at}>
+    {article.updated_at && <meta property="article:modified_time" content={article.updated_at}>}
+    <meta property="article:section" content={article.category}>
+    {article.tags && article.tags.map((tag: string) => (
+      <meta property="article:tag" content={tag}>
+    ))}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={metaTitle}>
+    <meta name="twitter:description" content={metaDesc}>
+    <meta name="twitter:image" content={shareImage}>
+    
+    <!-- Render the Schema.org JSON-LD -->
+    {jsonLdSchema && <script type="application/ld+json" set:html={jsonLdSchema}></script>}
+  </Fragment>
+
+  <main class="main my-5">
+    <article class="container">
+      
+      <!-- Back Link -->
+      <nav class="mb-4">
+        <a href="/articles" class="text-decoration-none text-muted small d-inline-flex align-items-center gap-1 hover-primary">
+          <i class="bi bi-arrow-left"></i> Kembali ke Blog
+        </a>
+      </nav>
+
+      <div class="row g-4 justify-content-center">
+        
+        <!-- ================= KOLOM UTAMA (KIRI) ================= -->
+        <div class="col-lg-8">
+          
+          <!-- Category and Meta -->
+          <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+            <span class="badge text-white text-capitalize px-3 py-2" style="background: var(--bs-primary); font-size: 0.75rem;">
+              {categoryLabels[article.category] || article.category}
+            </span>
+            <div class="text-muted small d-flex align-items-center gap-3">
+              <span><i class="bi bi-calendar3 me-1"></i>{formatDate(article.published_at)}</span>
+              <span>•</span>
+              <span><i class="bi bi-clock me-1"></i>{readingTime(article.content)}</span>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <h1 class="display-5 fw-bold text-dark mb-4 lh-sm">{article.title}</h1>
+
+          <!-- Author Info -->
+          <div class="d-flex align-items-center gap-3 py-3 border-top border-bottom mb-4">
+            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 48px; height: 48px; font-size: 1.1rem;">
+              {(article.author_name || 'D').charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <div class="fw-semibold text-dark mb-0">{article.author_name || 'Dian Lestari Kurniawati'}</div>
+              <div class="text-muted small">Penulis & Kontributor ShopWise</div>
+            </div>
+          </div>
+
+          <!-- Featured Image -->
+          {article.cover_image && (
+            <div class="mb-5 rounded-4 overflow-hidden shadow-sm">
+              <img 
+                src={article.cover_image} 
+                alt={article.title} 
+                class="img-fluid w-100 object-fit-cover"
+                style="max-height: 480px; width: 100%; object-fit: cover;"
+                loading="eager"
+              >
+            </div>
+          )}
+
+          <!-- Excerpt Intro -->
+          {article.excerpt && (
+            <p class="lead text-muted mb-4 fw-normal border-start border-primary border-4 ps-3 style-excerpt">
+              {article.excerpt}
+            </p>
+          )}
+
+          <!-- Rich Content HTML -->
+          <div class="article-body-content text-dark mb-4 lh-lg" style="font-size: 1.05rem;">
+            <Fragment set:html={article.content} />
+          </div>
+
+          <!-- BACA JUGA (Inlink) Box -->
+          {inlinkedArticles.length > 0 && (
+            <div class="card border-0 border-start border-primary border-4 bg-light rounded-3 p-4 my-5 shadow-sm baca-juga-card">
+              <div class="fw-bold text-dark mb-3" style="font-size: 0.95rem; letter-spacing: 0.5px;">
+                <i class="bi bi-link-45deg text-primary" style="font-size: 1.3rem; vertical-align: middle;"></i> BACA JUGA:
+              </div>
+              <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                {inlinkedArticles.map(inlink => (
+                  <li>
+                    <a href={`/articles/${inlink.slug}`} class="text-decoration-none fw-bold text-primary hover-underline d-inline-flex align-items-baseline" style="font-size: 1.02rem;">
+                      <span class="me-2 text-warning">👉</span>
+                      <span>{inlink.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <!-- Tags -->
+          {article.tags && article.tags.length > 0 && (
+            <div class="border-top pt-4 mb-5">
+              <div class="d-flex flex-wrap align-items-center gap-2">
+                <span class="text-muted small me-2"><i class="bi bi-tags me-1"></i> Tags:</span>
+                {article.tags.map((tag: string) => (
+                  <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill small">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Share buttons -->
+          <div class="card bg-light border-0 rounded-4 p-4 mb-5">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+              <h5 class="mb-0 fw-bold text-dark" style="font-size: 1rem;">Bagikan artikel ini:</h5>
+              <div class="d-flex gap-2">
+                <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonicalUrl)}`} target="_blank" class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center share-btn" style="width: 40px; height: 40px;" aria-label="Share on Facebook">
+                  <i class="bi bi-facebook"></i>
+                </a>
+                <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(canonicalUrl)}&text=${encodeURIComponent(article.title)}`} target="_blank" class="btn btn-outline-info rounded-circle d-flex align-items-center justify-content-center share-btn" style="width: 40px; height: 40px;" aria-label="Share on Twitter">
+                  <i class="bi bi-twitter-x"></i>
+                </a>
+                <a href={`https://api.whatsapp.com/send?text=${encodeURIComponent(article.title + ' - ' + canonicalUrl)}`} target="_blank" class="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center share-btn" style="width: 40px; height: 40px;" aria-label="Share on WhatsApp">
+                  <i class="bi bi-whatsapp"></i>
+                </a>
+                <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link disalin ke clipboard!');" class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center share-btn" style="width: 40px; height: 40px;" aria-label="Copy Link">
+                  <i class="bi bi-link-45deg"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= KOLOM SIDEBAR (KANAN) ================= -->
+        <div class="col-lg-4">
+          <aside class="sidebar-sticky" style="position: sticky; top: 30px;">
+            
+            <!-- Cari Artikel -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+              <h4 class="h6 fw-bold text-dark mb-3">Cari Artikel</h4>
+              <form action="/articles" method="GET" class="position-relative">
+                <input type="text" name="search" class="form-control rounded-pill px-3 py-2" placeholder="Masukkan kata kunci..." style="padding-right: 40px; font-size: 0.9rem;">
+                <button type="submit" class="btn position-absolute top-50 end-0 translate-middle-y border-0 text-muted" style="right: 10px;">
+                  <i class="bi bi-search"></i>
+                </button>
+              </form>
+            </div>
+
+            <!-- Rekomendasi Sidebar -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+              <h4 class="h6 fw-bold text-dark mb-3 pb-2 border-bottom">Rekomendasi Artikel</h4>
+              {sidebarArticles.length === 0 ? (
+                <p class="text-muted small mb-0">Tidak ada rekomendasi artikel saat ini.</p>
+              ) : (
+                <div class="d-flex flex-column gap-3">
+                  {sidebarArticles.map(side => (
+                    <a href={`/articles/${side.slug}`} class="text-decoration-none d-flex align-items-center gap-3 side-rec-item">
+                      <div class="rounded-3 overflow-hidden bg-light" style="width: 70px; height: 70px; flex-shrink: 0;">
+                        <img 
+                          src={side.cover_image || '/shop/assets/img/product/product-default.webp'} 
+                          alt={side.title} 
+                          class="w-100 h-100 object-fit-cover side-rec-thumb"
+                        >
+                      </div>
+                      <div class="flex-grow-1 min-w-0">
+                        <span class="text-primary text-uppercase fw-semibold" style="font-size: 0.65rem; letter-spacing: 0.5px;">
+                          {categoryLabels[side.category] || side.category}
+                        </span>
+                        <h5 class="fw-bold text-dark mb-1 text-truncate-2" style="font-size: 0.82rem; line-height: 1.3;">
+                          {side.title}
+                        </h5>
+                        <span class="text-muted" style="font-size: 0.7rem;">
+                          {formatDate(side.published_at)}
+                        </span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <!-- Promo/Banner Box -->
+            <div class="card border-0 text-white rounded-4 overflow-hidden p-4 text-center position-relative shadow-sm" style="background: linear-gradient(135deg, var(--bs-primary) 0%, #0d6efd 100%); min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+              <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-10" style="z-index: 1;"></div>
+              <div style="z-index: 2;">
+                <i class="bi bi-gift-fill mb-2" style="font-size: 2.2rem; color: #ffc107;"></i>
+                <h4 class="fw-bold h5 mb-2">Penawaran Menarik!</h4>
+                <p class="small text-light mb-3" style="opacity: 0.9;">Gunakan voucher promo di toko kami sekarang dan dapatkan diskon menarik.</p>
+                <a href="/category" class="btn btn-warning btn-sm rounded-pill px-4 fw-bold">Belanja Sekarang</a>
+              </div>
+            </div>
+
+          </aside>
+        </div>
+
+      </div>
+
+      <!-- Related Articles Section (Bottom) -->
+      {relatedArticles.length > 0 && (
+        <div class="row justify-content-start mt-5 pt-5 border-top">
+          <div class="col-lg-8">
+            <h3 class="fw-bold mb-4 text-dark text-center text-lg-start">Artikel Sejenis</h3>
+            <div class="row g-4">
+              {relatedArticles.map(rel => (
+                <div class="col-md-6 col-lg-4">
+                  <a href={`/articles/${rel.slug}`} class="text-decoration-none h-100 d-block">
+                    <div class="card border-0 shadow-sm h-100 rounded-3 overflow-hidden rel-card">
+                      <div style="height: 140px; overflow: hidden;">
+                        <img 
+                          src={rel.cover_image || '/shop/assets/img/product/product-default.webp'} 
+                          alt={rel.title} 
+                          class="img-fluid w-100 h-100 object-fit-cover rel-thumb"
+                        >
+                      </div>
+                      <div class="card-body p-3">
+                        <h4 class="h6 fw-bold text-dark mb-1 text-truncate-2" style="font-size: 0.85rem; line-height: 1.4; height: 2.8em;">
+                          {rel.title}
+                        </h4>
+                        <div class="text-muted small" style="font-size: 0.72rem;">
+                          {formatDate(rel.published_at)}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+    </article>
+  </main>
+
+  <style>
+    /* Styling to make Quill HTML look professional and structured */
+    .article-body-content :global(h2) {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: #1a202c;
+    }
+    .article-body-content :global(h3) {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: #2d3748;
+    }
+    .article-body-content :global(p) {
+      margin-bottom: 1.5rem;
+      color: #4a5568;
+      line-height: 1.8;
+    }
+    .article-body-content :global(ul), .article-body-content :global(ol) {
+      margin-bottom: 1.5rem;
+      padding-left: 2rem;
+      color: #4a5568;
+    }
+    .article-body-content :global(li) {
+      margin-bottom: 0.5rem;
+    }
+    .article-body-content :global(img) {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    .article-body-content :global(blockquote) {
+      border-left: 4px solid var(--bs-primary);
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: #4a5568;
+      background: #f7fafc;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+    .article-body-content :global(pre) {
+      background: #f7fafc;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1.5rem;
+    }
+    .style-excerpt {
+      line-height: 1.8;
+      font-size: 1.15rem;
+    }
+    .share-btn {
+      transition: all 0.2s;
+    }
+    .share-btn:hover {
+      transform: translateY(-2px);
+    }
+    .hover-primary:hover {
+      color: var(--bs-primary) !important;
+    }
+    .rel-card {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .rel-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+    }
+    .rel-card:hover .rel-thumb {
+      transform: scale(1.05);
+    }
+    .text-truncate-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .baca-juga-card {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .baca-juga-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+    }
+    .side-rec-item {
+      transition: background-color 0.2s;
+      padding: 5px;
+      border-radius: 8px;
+    }
+    .side-rec-item:hover {
+      background-color: #f8f9fa;
+    }
+    .side-rec-item:hover .side-rec-thumb {
+      transform: scale(1.05);
+    }
+  </style>
+</ShopLayout>

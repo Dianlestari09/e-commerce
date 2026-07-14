@@ -1,0 +1,204 @@
+import { t as __exportAll } from "./rolldown-runtime_D7D4PA-g.mjs";
+import { T as createComponent, a as renderComponent, f as renderTemplate, g as maybeRenderHead, v as addAttribute, w as createAstro } from "./server_Dt_BWqqO.mjs";
+import "./compiler_kmuGzyek.mjs";
+import { t as supabase } from "./supabase_CciFyEBF.mjs";
+import { t as $$AdminLayout } from "./AdminLayout_DKf7iUkJ.mjs";
+//#region src/pages/admin/articles/edit.astro
+var edit_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$Edit,
+	file: () => $$file,
+	url: () => $$url
+});
+createAstro("https://astro.build");
+var $$Edit = createComponent(async ($$result, $$props, $$slots) => {
+	const Astro = $$result.createAstro($$props, $$slots);
+	Astro.self = $$Edit;
+	const id = Astro.url.searchParams.get("id");
+	let article = null;
+	let articles = [];
+	if (id) try {
+		const { data } = await supabase.from("articles").select("*").eq("id", id).single();
+		if (data) article = data;
+		const { data: allArt } = await supabase.from("articles").select("id, title").neq("id", id).order("title", { ascending: true });
+		if (allArt) articles = allArt;
+	} catch (e) {
+		console.error("Failed to load article:", e);
+	}
+	if (!article) return Astro.redirect("/admin/articles");
+	return renderTemplate`${renderComponent($$result, "AdminLayout", $$AdminLayout, { "title": `Edit Article - ${article.title}` }, { "default": async ($$result) => renderTemplate`${maybeRenderHead($$result)}<div class="page-header d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4"><div><h1 class="page-title h3 mb-1 font-weight-bold">Edit Article</h1><p class="text-muted mb-0">Update article content, SEO settings, and schema.</p></div><div class="d-flex gap-2"><a${addAttribute(`/articles/${article.slug}`, "href")} target="_blank" class="btn btn-outline-secondary"><i class="bi bi-eye me-1"></i> View on Site</a><a href="/admin/articles" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i> Back to List</a></div></div><ul class="nav nav-tabs mb-4" id="articleTabs" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" id="content-tab" data-bs-toggle="tab" data-bs-target="#content-pane" type="button"><i class="bi bi-file-text me-1"></i> Content</button></li><li class="nav-item" role="presentation"><button class="nav-link" id="seo-tab" data-bs-toggle="tab" data-bs-target="#seo-pane" type="button"><i class="bi bi-search me-1"></i> SEO & Schema</button></li></ul><form id="edit-article-form"><input type="hidden" id="a-id"${addAttribute(article.id, "value")}><div class="tab-content"><!-- ====== TAB 1: CONTENT ====== --><div class="tab-pane fade show active" id="content-pane" role="tabpanel"><div class="row g-4"><!-- Left Column --><div class="col-lg-8"><div class="card border-0 shadow-sm p-4 bg-white"><div class="row g-3"><!-- Title --><div class="col-12"><label for="a-title" class="form-label fw-bold">Article Title *</label><input type="text" id="a-title" class="form-control form-control-lg"${addAttribute(article.title, "value")} required></div><!-- Slug --><div class="col-12"><label for="a-slug" class="form-label fw-bold">Slug (URL) *</label><div class="input-group"><span class="input-group-text text-muted">/articles/</span><input type="text" id="a-slug" class="form-control font-monospace"${addAttribute(article.slug, "value")} required></div></div><!-- Excerpt --><div class="col-12"><label for="a-excerpt" class="form-label fw-bold">Excerpt / Summary</label><textarea id="a-excerpt" class="form-control" rows="3">${article.excerpt || ""}</textarea></div><!-- Content --><div class="col-12"><label class="form-label fw-bold">Content *</label><div id="quill-editor" style="height: 400px;" class="bg-white"></div><input type="hidden" id="a-content"${addAttribute(article.content || "", "value")}></div></div></div></div><!-- Right Column --><div class="col-lg-4"><!-- Publish Box --><div class="card border-0 shadow-sm p-4 bg-white mb-4"><h6 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-send me-1"></i>Publish</h6><div class="mb-3"><label for="a-status" class="form-label fw-bold">Status</label><select id="a-status" class="form-select"><option value="draft"${addAttribute(article.status === "draft", "selected")}>Draft</option><option value="published"${addAttribute(article.status === "published", "selected")}>Published</option></select></div><div class="alert alert-success d-none mb-3" id="success-alert">Article updated successfully!</div><div class="alert alert-danger d-none mb-3" id="error-alert"></div><button type="submit" class="btn btn-primary w-100" id="save-btn"><i class="bi bi-save me-1"></i> Update Article</button></div><!-- Article Info --><div class="card border-0 shadow-sm p-4 bg-white mb-4"><h6 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-info-circle me-1"></i>Article Details</h6><div class="mb-3"><label for="a-category" class="form-label fw-bold">Category</label><select id="a-category" class="form-select"><option value="tips"${addAttribute(article.category === "tips", "selected")}>Tips & Tricks</option><option value="review"${addAttribute(article.category === "review", "selected")}>Product Review</option><option value="news"${addAttribute(article.category === "news", "selected")}>News</option><option value="inspirasi"${addAttribute(article.category === "inspirasi", "selected")}>Inspirasi</option><option value="promo"${addAttribute(article.category === "promo", "selected")}>Promo & Deals</option><option value="tutorial"${addAttribute(article.category === "tutorial", "selected")}>Tutorial</option></select></div><div class="mb-3"><label for="a-tags" class="form-label fw-bold">Tags <span class="text-muted fw-normal">(comma-separated)</span></label><input type="text" id="a-tags" class="form-control"${addAttribute((article.tags || []).join(", "), "value")}></div><div class="mb-3"><label for="a-author" class="form-label fw-bold">Author Name</label><input type="text" id="a-author" class="form-control"${addAttribute(article.author_name || "Dian Lestari Kurniawati", "value")}></div><div class="mb-3"><label for="a-related" class="form-label fw-bold">Baca Juga (Inlink)</label><select id="a-related" class="form-select" multiple>${articles.map((art) => renderTemplate`<option${addAttribute(art.id, "value")}${addAttribute(article.related_article_ids && article.related_article_ids.includes(art.id), "selected")}>${art.title}</option>`)}</select><div class="text-muted small mt-1">Pilih artikel lain untuk ditautkan sebagai rekomendasi bacaan.</div></div></div><!-- Cover Image --><div class="card border-0 shadow-sm p-4 bg-white"><h6 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-image me-1"></i>Cover Image</h6><div class="mb-2"><label for="a-cover" class="form-label fw-bold">Image URL</label><input type="url" id="a-cover" class="form-control"${addAttribute(article.cover_image || "", "value")}></div><div id="cover-preview-wrapper"${addAttribute(article.cover_image ? "" : "d-none", "class")}><img id="cover-preview"${addAttribute(article.cover_image || "", "src")} alt="Cover Preview" class="img-fluid rounded border mt-2" style="max-height: 150px; object-fit: cover; width: 100%;"></div></div></div></div></div><!-- ====== TAB 2: SEO & SCHEMA ====== --><div class="tab-pane fade" id="seo-pane" role="tabpanel"><div class="card border-0 shadow-sm p-4 bg-white" style="max-width: 860px;"><h5 class="fw-bold mb-4 border-bottom pb-2"><i class="bi bi-search me-2"></i>SEO Settings</h5><!-- Google Preview --><div class="mb-4 p-3 rounded-3 border bg-light"><div class="text-muted small mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.7rem;">Google Search Preview</div><div class="text-primary fw-semibold" id="seo-preview-title" style="font-size: 1.05rem;">${article.meta_title || article.title}</div><div class="text-success small" id="seo-preview-url">/articles/${article.slug}</div><div class="text-secondary small mt-1" id="seo-preview-desc" style="line-height: 1.5;">${article.meta_description || article.excerpt || "Meta description..."}</div></div><div class="row g-3"><div class="col-12"><label for="a-meta-title" class="form-label fw-bold">Meta Title (SEO)</label><input type="text" id="a-meta-title" class="form-control"${addAttribute(article.meta_title || "", "value")} placeholder="Custom title for search engines"><div class="d-flex justify-content-between text-muted small mt-1"><span>Recommended: 50-60 characters</span><span id="meta-title-count">${(article.meta_title || "").length} chars</span></div></div><div class="col-12"><label for="a-meta-desc" class="form-label fw-bold">Meta Description (SEO)</label><textarea id="a-meta-desc" class="form-control" rows="3" placeholder="Custom description for search engines">${article.meta_description || ""}</textarea><div class="d-flex justify-content-between text-muted small mt-1"><span>Recommended: 150-160 characters</span><span id="meta-desc-count">${(article.meta_description || "").length} chars</span></div></div></div><hr class="my-4"><h5 class="fw-bold mb-3"><i class="bi bi-code-slash me-2"></i>JSON-LD Schema Code</h5><p class="text-muted small mb-3">Paste custom JSON-LD structured data schema for this article. If left blank, a default <code>Article</code> schema will be auto-generated.<a href="https://schema.org/Article" target="_blank" rel="noopener" class="ms-1">schema.org/Article ↗</a></p><div class="mb-3"><div class="d-flex align-items-center justify-content-between mb-2"><label for="a-schema" class="form-label fw-bold mb-0">Custom Schema (JSON-LD)</label><button type="button" class="btn btn-sm btn-outline-secondary" id="schema-format-btn"><i class="bi bi-braces me-1"></i>Format JSON</button></div><textarea id="a-schema" class="form-control font-monospace" rows="14" style="font-size: 0.85rem; line-height: 1.6;">${article.schema_code || ""}</textarea><div id="schema-error" class="text-danger small mt-1 d-none"><i class="bi bi-exclamation-circle me-1"></i>Invalid JSON. Please fix before saving.</div></div></div></div></div></form><script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Cover image preview
+      const coverInput = document.getElementById('a-cover');
+      const coverPreviewWrapper = document.getElementById('cover-preview-wrapper');
+      const coverPreview = document.getElementById('cover-preview');
+      coverInput.addEventListener('input', function () {
+        if (this.value) {
+          coverPreview.src = this.value;
+          coverPreviewWrapper.classList.remove('d-none');
+        } else {
+          coverPreviewWrapper.classList.add('d-none');
+        }
+      });
+
+      // SEO preview
+      const metaTitleInput = document.getElementById('a-meta-title');
+      const metaDescInput = document.getElementById('a-meta-desc');
+      const metaTitleCount = document.getElementById('meta-title-count');
+      const metaDescCount = document.getElementById('meta-desc-count');
+      metaTitleInput.addEventListener('input', function () {
+        metaTitleCount.textContent = \`\${this.value.length} chars\`;
+        updateSeoPreview();
+      });
+      metaDescInput.addEventListener('input', function () {
+        metaDescCount.textContent = \`\${this.value.length} chars\`;
+        updateSeoPreview();
+      });
+      document.getElementById('a-title').addEventListener('input', updateSeoPreview);
+      document.getElementById('a-slug').addEventListener('input', updateSeoPreview);
+      document.getElementById('a-excerpt').addEventListener('input', updateSeoPreview);
+
+      function updateSeoPreview() {
+        const title = metaTitleInput.value || document.getElementById('a-title').value || 'Article Title';
+        const slug = document.getElementById('a-slug').value || 'your-slug';
+        const desc = metaDescInput.value || document.getElementById('a-excerpt').value || 'Meta description...';
+        document.getElementById('seo-preview-title').textContent = title.length > 60 ? title.slice(0, 60) + '...' : title;
+        document.getElementById('seo-preview-url').textContent = \`\${window.location.origin}/articles/\${slug}\`;
+        document.getElementById('seo-preview-desc').textContent = desc.length > 160 ? desc.slice(0, 160) + '...' : desc;
+      }
+
+      // Schema JSON format button
+      document.getElementById('schema-format-btn').addEventListener('click', function () {
+        const ta = document.getElementById('a-schema');
+        const errEl = document.getElementById('schema-error');
+        try {
+          if (ta.value.trim()) ta.value = JSON.stringify(JSON.parse(ta.value), null, 2);
+          errEl.classList.add('d-none');
+        } catch (e) { errEl.classList.remove('d-none'); }
+      });
+
+      document.getElementById('a-schema').addEventListener('input', function () {
+        const errEl = document.getElementById('schema-error');
+        if (!this.value.trim()) { errEl.classList.add('d-none'); return; }
+        try { JSON.parse(this.value); errEl.classList.add('d-none'); }
+        catch (e) { errEl.classList.remove('d-none'); }
+      });
+
+      // Initialize Choices.js for related articles
+      let relatedChoices = null;
+      const relatedSelectEl = document.getElementById('a-related');
+      if (relatedSelectEl && window.Choices) {
+        relatedChoices = new window.Choices(relatedSelectEl, {
+          removeItemButton: true,
+          placeholderValue: 'Pilih artikel...',
+          searchPlaceholderValue: 'Cari artikel...'
+        });
+      }
+
+      // Initialize Quill
+      const existingContent = document.getElementById('a-content').value;
+      const quill = new Quill('#quill-editor', {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            [{ 'header': [1, 2, 3, 4, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'align': [] }],
+            ['blockquote', 'code-block'],
+            ['link', 'image'],
+            ['clean']
+          ]
+        }
+      });
+      if (existingContent) {
+        quill.root.innerHTML = existingContent;
+      }
+
+      // Form submit
+      const form = document.getElementById('edit-article-form');
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const saveBtn = document.getElementById('save-btn');
+        const errorAlert = document.getElementById('error-alert');
+        const successAlert = document.getElementById('success-alert');
+        errorAlert.classList.add('d-none');
+        successAlert.classList.add('d-none');
+
+        const schemaVal = document.getElementById('a-schema').value.trim();
+        if (schemaVal) {
+          try { JSON.parse(schemaVal); }
+          catch (e) {
+            errorAlert.textContent = 'Invalid JSON-LD Schema code. Please fix it in the SEO tab.';
+            errorAlert.classList.remove('d-none');
+            return;
+          }
+        }
+
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Saving...';
+
+        const tagsRaw = document.getElementById('a-tags').value;
+        const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+        const content = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
+
+        const relatedIds = relatedChoices ? relatedChoices.getValue(true) : [];
+
+        const payload = {
+          id: document.getElementById('a-id').value,
+          title: document.getElementById('a-title').value,
+          slug: document.getElementById('a-slug').value,
+          excerpt: document.getElementById('a-excerpt').value,
+          content,
+          cover_image: document.getElementById('a-cover').value || null,
+          author_name: document.getElementById('a-author').value,
+          category: document.getElementById('a-category').value,
+          tags,
+          status: document.getElementById('a-status').value,
+          meta_title: document.getElementById('a-meta-title').value || null,
+          meta_description: document.getElementById('a-meta-desc').value || null,
+          schema_code: schemaVal || null,
+          related_article_ids: relatedIds
+        };
+
+        try {
+          const { data: sessionData } = await window.supabase.auth.getSession();
+          const token = sessionData?.session?.access_token;
+
+          const res = await fetch('/api/admin/articles', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token ? \`Bearer \${token}\` : ''
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const result = await res.json();
+          if (res.ok && result.success) {
+            successAlert.classList.remove('d-none');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            errorAlert.textContent = result.error || 'Failed to update article.';
+            errorAlert.classList.remove('d-none');
+          }
+        } catch (err) {
+          console.error(err);
+          errorAlert.textContent = 'An error occurred while saving the article.';
+          errorAlert.classList.remove('d-none');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="bi bi-save me-1"></i> Update Article';
+        }
+      });
+    });
+  <\/script>` })}
+export const prerender = false;`;
+}, "D:/Kuliah/Magang/e-commerce/src/pages/admin/articles/edit.astro", void 0);
+var $$file = "D:/Kuliah/Magang/e-commerce/src/pages/admin/articles/edit.astro";
+var $$url = "/admin/articles/edit";
+//#endregion
+//#region \0virtual:astro:page:src/pages/admin/articles/edit@_@astro
+var page = () => edit_exports;
+//#endregion
+export { page };

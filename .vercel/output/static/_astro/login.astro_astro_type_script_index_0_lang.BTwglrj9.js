@@ -1,0 +1,7 @@
+import{t as e}from"./supabase.ohim4gXv.js";var t=document.getElementById(`admin-login-form`),n=document.getElementById(`submit-btn`),r=document.getElementById(`btn-text`),i=document.getElementById(`btn-spinner`),a=document.getElementById(`alert-container`);function o(e){a&&(a.innerHTML=`
+          <div class="alert alert-dismissible fade show border-0" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            ${e}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `)}t?.addEventListener(`submit`,async t=>{t.preventDefault(),n&&(n.disabled=!0),r?.classList.add(`d-none`),i?.classList.remove(`d-none`),a&&(a.innerHTML=``);let s=document.getElementById(`email`).value.trim(),c=document.getElementById(`password`).value;try{let{data:t,error:a}=await e.auth.signInWithPassword({email:s,password:c});if(a){o(a.message),n&&(n.disabled=!1),r?.classList.remove(`d-none`),i?.classList.add(`d-none`);return}let l=t.user;if(!l){o(`Authentication failed.`);return}let{data:u,error:d}=await e.from(`profiles`).select(`role`).eq(`id`,l.id).single(),f=u?.role;if(d||f!==`admin`&&f!==`super_admin`){o(`Access Denied: Only administrators or resellers can log in here.`),await e.auth.signOut(),n&&(n.disabled=!1),r?.classList.remove(`d-none`),i?.classList.add(`d-none`);return}window.location.href=`/admin`}catch(e){console.error(e),o(`An unexpected error occurred.`),n&&(n.disabled=!1),r?.classList.remove(`d-none`),i?.classList.add(`d-none`)}});
