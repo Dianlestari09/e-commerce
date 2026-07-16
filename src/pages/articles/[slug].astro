@@ -218,8 +218,19 @@ const categoryLabels: Record<string, string> = {
             </p>
           )}
 
+          <!-- Table of Contents -->
+          <div class="card border-0 shadow-sm p-4 mb-5 bg-light rounded-4 d-none" id="article-toc">
+            <div class="d-flex justify-content-between align-items-center" style="cursor: pointer;" onclick="document.getElementById('toc-content').classList.toggle('d-none'); document.getElementById('toc-icon').classList.toggle('bi-chevron-down'); document.getElementById('toc-icon').classList.toggle('bi-chevron-up');">
+              <h5 class="fw-bold mb-0" style="font-size: 1.1rem;"><i class="bi bi-list-ul me-2"></i>Daftar Isi</h5>
+              <i class="bi bi-chevron-down text-muted fw-bold" id="toc-icon"></i>
+            </div>
+            <div id="toc-content" class="d-none mt-3 pt-3 border-top">
+              <ul id="toc-list" class="list-unstyled mb-0 d-flex flex-column gap-2"></ul>
+            </div>
+          </div>
+
           <!-- Rich Content HTML -->
-          <div class="article-body-content text-dark mb-4 lh-lg" style="font-size: 1.05rem;">
+          <div class="article-body-content text-dark mb-4 lh-lg" style="font-size: 1.05rem;" id="article-content">
             <Fragment set:html={article.content} />
           </div>
 
@@ -483,4 +494,53 @@ const categoryLabels: Record<string, string> = {
       transform: scale(1.05);
     }
   </style>
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', function() {
+      const content = document.getElementById('article-content');
+      const tocContainer = document.getElementById('article-toc');
+      const tocList = document.getElementById('toc-list');
+      
+      if (content && tocContainer && tocList) {
+        const headings = content.querySelectorAll('h2, h3, h4');
+        if (headings.length > 0) {
+          tocContainer.classList.remove('d-none');
+          headings.forEach((h, idx) => {
+            const level = parseInt(h.tagName.substring(1));
+            const text = h.textContent.trim();
+            if (!text) return;
+            
+            // Assign ID to heading if it doesn't have one
+            const id = h.id || `heading-${idx}`;
+            h.id = id;
+            
+            const li = document.createElement('li');
+            li.style.marginLeft = `${(level - 2) * 15}px`;
+            
+            const a = document.createElement('a');
+            a.href = `#${id}`;
+            a.className = 'text-decoration-none text-dark hover-primary d-inline-block w-100';
+            a.style.fontSize = level === 2 ? '0.95rem' : '0.9rem';
+            a.style.fontWeight = level === 2 ? '600' : '400';
+            a.innerHTML = `<i class="bi bi-dash me-1 text-muted"></i> ${text}`;
+            
+            // Smooth scrolling behavior
+            a.addEventListener('click', function(e) {
+              e.preventDefault();
+              const target = document.getElementById(id);
+              if (target) {
+                window.scrollTo({
+                  top: target.offsetTop - 100, // adjust for sticky header/spacing
+                  behavior: 'smooth'
+                });
+                history.pushState(null, null, `#${id}`);
+              }
+            });
+            
+            li.appendChild(a);
+            tocList.appendChild(li);
+          });
+        }
+      }
+    });
+  </script>
 </ShopLayout>

@@ -99,6 +99,11 @@ if (!article) {
                   <label class="form-label fw-bold">Content *</label>
                   <div id="quill-editor" style="height: 400px;" class="bg-white"></div>
                   <input type="hidden" id="a-content" value={article.content || ''}>
+<!-- Table of Contents -->
+<div class="card border-0 shadow-sm p-4 bg-white mb-4">
+  <h6 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-list-ol me-1"></i>Table of Contents</h6>
+  <ul id="toc" class="list-unstyled"></ul>
+</div>
                 </div>
               </div>
             </div>
@@ -330,6 +335,38 @@ if (!article) {
       if (existingContent) {
         quill.root.innerHTML = existingContent;
       }
+
+      // Generate Table of Contents for Admin UI
+      function generateTOC() {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = quill.root.innerHTML;
+        const headings = tempDiv.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        const toc = document.getElementById('toc');
+        if (!toc) return;
+        toc.innerHTML = '';
+        if (headings.length === 0) {
+          toc.innerHTML = '<li class="text-muted small">Tidak ada heading (H1-H6) ditemukan dalam konten.</li>';
+          return;
+        }
+        headings.forEach((h, idx) => {
+          const level = parseInt(h.tagName.substring(1));
+          const text = h.textContent.trim();
+          if (!text) return;
+          const li = document.createElement('li');
+          li.style.marginLeft = `${(level - 1) * 15}px`;
+          li.style.marginBottom = '0.25rem';
+          li.style.fontSize = '0.9rem';
+          const a = document.createElement('a');
+          a.href = `javascript:void(0)`;
+          a.textContent = text;
+          a.className = 'text-decoration-none text-dark';
+          li.appendChild(a);
+          toc.appendChild(li);
+        });
+      }
+      
+      quill.on('text-change', generateTOC);
+      generateTOC();
 
       // Form submit
       const form = document.getElementById('edit-article-form');
